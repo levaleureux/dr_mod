@@ -1,6 +1,8 @@
 # dr_mod
 Amiga mod loader and player for dragonruby
 
+![main_screen](./readme_files/oo1_main_screen.png)
+
 # Base documents
 
 This MOD player is base on those 2 document
