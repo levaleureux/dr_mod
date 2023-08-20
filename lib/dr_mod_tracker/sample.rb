@@ -1,17 +1,24 @@
 #
-#
+# TODO class too long must <100 line been
 #
 #
 class Sample
   include LoadTool
-  ATTR_LIST = %i(num s_offset name length finetune volume repeat_point repeat_length data normalized_data)
-  attr_accessor *ATTR_LIST
+  include SamplePrint
+  # ATTR_LIST = %i(num s_offset name length finetune
+  # volume repeat_point repeat_length data normalized_data)
+  attr_accessor  :num, :s_offset, :name, :length, :finetune, :volume,
+    :repeat_point, :repeat_length, :data, :normalized_data
 
   def initialize num, mod_data
     @num      = num
     @s_offset = num * 30
     @mod_data = mod_data
     set_name
+    set_elements
+  end
+
+  def set_elements
     set_length
     set_finetune
     set_volume
@@ -87,28 +94,4 @@ class Sample
     end
   end
 
-  def puts_info
-    puts "num:    #{@num}"
-    puts "name:   #{@name}"
-    puts "length: #{@length}"
-    puts ""
-    puts "finetune:      #{@finetune}"
-    puts "volume:        #{@volume}"
-    puts "repeat_point:  #{@repeat_point}"
-    puts "repeat_length: #{@repeat_length}"
-  end
-
-  def puts_info_data
-    puts "----------------------"
-    puts "num:      #{@num}"
-    puts "name:     #{@name}"
-    puts "length:   #{@length}"
-    puts "finetune: #{@finetune}<-"
-    data = @data[0, 20]
-    if data.length == 0
-      puts "data: []"
-    else
-      puts "data:   [#{data.join(',')}..."
-    end
-  end
 end

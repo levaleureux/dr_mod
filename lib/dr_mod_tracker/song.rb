@@ -1,6 +1,5 @@
 #
-#
-#
+# TODO extract puts to a module
 #
 class Song
   include LoadTool
