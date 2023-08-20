@@ -1,3 +1,6 @@
+#
+# Where there is the main loop
+#
 class Game
   attr_gtk
 
@@ -9,6 +12,9 @@ class Game
     post_init
   end
 
+  #
+  # TODO use state directly
+  #
   def tick
     args.state.my_scenes[args.state.current_scene].tick
     @scene_manager.tick
@@ -30,8 +36,8 @@ class Game
   def post_init_scenes
     [@scene_title].each do |scene|
       scene.args = args
-      puts scene.class::NAME
-      state.my_scenes[scene.class::NAME] = scene
+      scene.add_to_scenes
     end
   end
+
 end
