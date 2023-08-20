@@ -2,11 +2,12 @@ class Cell
   include LoadTool
   attr_reader :sample_number, :note_period, :effect_command, :effect_argument
 
+  #note        = (note_byte & 0x0F)
+  #sample      = ((note_byte & 0xF0) >> 4)
+  #instrument  = (instrument_byte & 0xF0) | ((effect_byte & 0xF0) >> 4)
+  #effect      = (effect_byte & 0x0F)
+  #effect_data = effect_data_byte
   def initialize(cell_data)
-    decode_cell(cell_data)
-  end
-
-  def decode_cell(cell_data)
     @sample_number   = (cell_data[0] & 0xF0) | ((cell_data[2] & 0xF0) >> 4)
     @note_period     = ((cell_data[0] & 0x0F) << 8) | cell_data[1]
     @effect_command  = (cell_data[3] & 0xF0) >> 4
