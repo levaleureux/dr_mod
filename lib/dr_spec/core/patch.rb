@@ -166,3 +166,27 @@ S
     end
   end
 end
+
+module GTK
+  class Runtime
+    module AsyncRequire
+
+      def main_rb_loaded!
+        @new_methods ||= important_instance_methods
+        new_methods = important_instance_methods - @new_methods
+
+        if new_methods.length > 0
+          if false
+          log <<-S
+            * INFO: New methods discovered and I make noise for that.
+            #{new_methods.map { |m| "** #{m.inspect}"  }.join("\n")}
+          S
+          @new_methods = important_instance_methods
+          end
+        end
+
+        process_load_status
+      end
+    end
+  end
+end

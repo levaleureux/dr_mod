@@ -4,18 +4,14 @@
 #
 class Song
   include LoadTool
-  ATTR_LIST = %i(name song_name length tracker_byte
-    song_positions format_signature samples_data_offset)
-  attr_accessor *ATTR_LIST
+  ATTR_LIST = %i()
+  attr_accessor :name, :song_name, :length, :tracker_byte,
+    :song_positions, :format_signature, :samples_data_offset
 
   def initialize mod_data
     @s_offset = 0
     @mod_data = mod_data
-    set_name
-    set_length
-    set_tracker_byte
-    set_song_positions
-    set_format_signature
+    set_elements
   end
 
   def set_name
@@ -64,26 +60,42 @@ class Song
   end
 
   def puts_info
-    puts "name:   #{@name}"
-    puts "length: #{@length} patterns"
-    puts "Tag:    ->#{@format_signature}<-"
-    puts "-"
-    puts "tracker_byte: #{@tracker_byte}"
+    puts_song_info
     puts "song_positions:"
     puts_song_positions
   end
 
   def puts_song_positions
-    song_positions = @song_positions
-
+    song_positions      = @song_positions
     formatted_positions = song_positions
       .take(@length).map { |pos| format('%02d', pos)  }
     blocks = formatted_positions.each_slice(16).to_a
 
+    puts_line_blocks blocks
+  end
+
+  private
+  def puts_song_info
+    puts "name:   #{@name}"
+    puts "length: #{@length} patterns"
+    puts "Tag:    ->#{@format_signature}<-"
+    puts "-"
+    puts "tracker_byte: #{@tracker_byte}"
+  end
+
+  def puts_line_blocks
     blocks.each do |block|
       line = block.join(' ')
       puts line
       puts
     end
+  end
+
+  def set_elements
+    set_name
+    set_length
+    set_tracker_byte
+    set_song_positions
+    set_format_signature
   end
 end

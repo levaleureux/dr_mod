@@ -3,6 +3,7 @@ spec :another_spec do
   context "the_first_context" do
     before do
       @a = 4
+      puts "yo".red
     end
 
     it "expectation_3" do |args, assert|

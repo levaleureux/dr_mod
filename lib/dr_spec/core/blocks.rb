@@ -1,4 +1,4 @@
-def context(description, &block)
+def context description, &block
   subcontext = { description: description, subcontexts: [],
                  tests: [],
                  befores: @current_context[:befores],
