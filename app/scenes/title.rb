@@ -1,4 +1,7 @@
 
+#
+# First scene
+#
 class Scene::Title
   include ::Concern::Background
   include ::Concern::SoundBox
@@ -7,14 +10,14 @@ class Scene::Title
   NAME = :title
 
   def initialize args
-    @x = 100
-    @y = 100
-    @color = {r: 255, g: 0, b: 0}
+    @x                = 100
+    @y                = 100
+    @color            = {r: 255, g: 0, b: 0}
     args.state.action = false
-    proc_play  = Proc.new { start_game }
-    width      = 128
-    s_w        = 720
-    s_h        = 1280
+    proc_play         = Proc.new { start_game }
+    width             = 128
+    s_w               = 720
+    s_h               = 1280
     init_dr_mod
     @channels = []
     4.times do |channel|
