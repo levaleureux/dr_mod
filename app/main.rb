@@ -6,7 +6,7 @@ require "app/component/game.rb"
 def tick args
   args.state.game ||= Game.new args
   args.state.game.args = args
-  #args.state.game.post_init unless args.state.post_init
+  # args.state.game.post_init unless args.state.post_init
   args.state.game.tick
   reset_game args if args.inputs.keyboard.key_down.r
 end

@@ -1,0 +1,13 @@
+{
+
+  "app/component/*.rb": {
+    "alternate": "spec/component/{}_spec.rb",
+    "type": "source"
+  },
+  "spec/component/*_spec.rb": {
+    "alternate": "app/component/{}.rb",
+    "type": "spec"
+  }
+
+}
+
