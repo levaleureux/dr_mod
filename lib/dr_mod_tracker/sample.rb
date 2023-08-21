@@ -1,7 +1,6 @@
 #
 # TODO class too long must <100 line been
-#
-#
+# how about extract data and normalized_data process?
 #
 # Sample are store into the mod
 #
@@ -39,7 +38,7 @@ class Sample
   # it's an amiga word
   #
   def set_length
-    offset = offet_for :sample_length
+    offset  = offet_for :sample_length
     @length = decode_amiga_word @mod_data, offset
   end
 
@@ -70,7 +69,7 @@ class Sample
   end
 
   def set_attr attr_name
-    offset         = offet_for attr_name
+    offset = offet_for attr_name
     size   = T_SPEC[attr_name][:bytes]
     @mod_data[offset, size]
   end

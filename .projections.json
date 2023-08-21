@@ -7,7 +7,14 @@
   "spec/component/*_spec.rb": {
     "alternate": "app/component/{}.rb",
     "type": "spec"
+  },
+  "lib/dr_mod_tracker/*.rb": {
+    "alternate": "spec/component/{}_spec.rb",
+    "type": "source"
+  },
+  "lib/dr_mod_tracker/*_spec.rb": {
+    "alternate": "app/component/{}.rb",
+    "type": "spec"
   }
-
 }
 
