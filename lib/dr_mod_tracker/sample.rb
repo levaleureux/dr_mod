@@ -2,13 +2,19 @@
 # TODO class too long must <100 line been
 #
 #
+#
+# Sample are store into the mod
+#
+#
+# :reek:TooManyInstanceVariables
 class Sample
   include LoadTool
   include SamplePrint
   # ATTR_LIST = %i(num s_offset name length finetune
   # volume repeat_point repeat_length data normalized_data)
-  attr_accessor  :num, :s_offset, :name, :length, :finetune, :volume,
+  attr_reader  :num, :s_offset, :name, :length, :finetune, :volume,
     :repeat_point, :repeat_length, :data, :normalized_data
+  #attr_accessor  :num, :s_offset, :name, :length, :finetune, :volume,
 
   def initialize num, mod_data
     @num      = num
@@ -33,19 +39,19 @@ class Sample
   # it's an amiga word
   #
   def set_length
-    offset = T_SPEC[:sample_length][:offset] + @s_offset
+    offset = offet_for :sample_length
     @length = decode_amiga_word @mod_data, offset
   end
 
   def set_finetune
-    offset    = T_SPEC[:finetune][:offset] + @s_offset
+    offset = offet_for :finetune
     size      = T_SPEC[:finetune][:bytes]
     @finetune = @mod_data[offset, size].unpack("C").first
     #@finetune = set_attr :finetune
   end
 
   def set_volume
-    offset      = T_SPEC[:volume][:offset] + @s_offset
+    offset = offet_for :volume
     size        = T_SPEC[:volume][:bytes]
     volume_byte = @mod_data[offset, size].unpack("C").first
     #@volume     = (volume_byte & 0x7F) / 2
@@ -53,18 +59,18 @@ class Sample
   end
 
   def set_repeat_point
-    offset = T_SPEC[:repeat_point][:offset] + @s_offset
     #@repeat_point = @mod_data[offset, 2].unpack("S>").first
+    offset = offet_for :repeat_point
     @repeat_point = decode_amiga_word @mod_data, offset
   end
 
   def set_repeat_length
-    offset = T_SPEC[:repeat_length][:offset] + @s_offset
+    offset         = offet_for :repeat_length
     @repeat_length = decode_amiga_word @mod_data, offset
   end
 
   def set_attr attr_name
-    offset = T_SPEC[attr_name][:offset] + @s_offset
+    offset         = offet_for attr_name
     size   = T_SPEC[attr_name][:bytes]
     @mod_data[offset, size]
   end
@@ -94,4 +100,9 @@ class Sample
     end
   end
 
+  private
+
+  def offet_for attr_name
+    T_SPEC[attr_name][:offset] + @s_offset
+  end
 end
