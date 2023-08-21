@@ -1,5 +1,8 @@
 module Concern::Background
 
+  #
+  # TODO is outputs part of gtk_args
+  #
   def draw_screen_box
     args.outputs.lines  << [718, 0, 718, 1280]
     args.outputs.lines  << [1, 0, 1, 1280]

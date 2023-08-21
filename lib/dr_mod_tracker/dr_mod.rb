@@ -3,20 +3,29 @@
 #
 #
 # https://www.lim.di.unimi.it/IEEE/VROS/FAQ/CRAMIG2.HTM
+#
+# TODO create a folder core with subcore folders
+# TODO rename dr_mod_tracker into dr_mod
+#
 require "lib/dr_mod_tracker/tracker_formats/protracker_1_1_b.rb"
 require "lib/dr_mod_tracker/sample/sample_print.rb"
 require "lib/dr_mod_tracker/load_tool.rb"
 require "lib/dr_mod_tracker/sample.rb"
+require "lib/dr_mod_tracker/song/song_setup.rb"
+require "lib/dr_mod_tracker/song/song_print.rb"
 require "lib/dr_mod_tracker/song.rb"
 require "lib/dr_mod_tracker/cell.rb"
 require "lib/dr_mod_tracker/pattern/pattern_print.rb"
 require "lib/dr_mod_tracker/pattern.rb"
 
+#
+# The main class of the lib
+#
 class DrMod
   attr_accessor :song, :samples, :patterns
 
   def initialize file_path
-    @mod_data = $gtk.read_file file_path
+    @mod_data          = $gtk.read_file file_path
     @cumulative_offset = 0
   end
 
@@ -28,11 +37,11 @@ class DrMod
     puts_title "Song data"
     @song = Song.new @mod_data
     @song.puts_info
-    load_all_1
+    load_all_first_part
   end
 
   def puts_title title
-    puts "--------------------------------------------"
+    # puts "--------------------------------------------"
     puts " #{title}"
     puts "--------------------------------------------"
   end
@@ -68,13 +77,13 @@ class DrMod
 
   # TODO the split and puts title show there is something wrong
   #
-  def load_all_1
+  def load_all_first_part
     puts_title "Samples list sisis"
     load_samples
-    load_all_2
+    load_all_2nd_part
   end
 
-  def load_all_2
+  def load_all_2nd_part
     puts_title "Pattern list"
     load_patterns
     puts_title "Samples data"

@@ -1,5 +1,5 @@
 #
-#
+# Help to log pattern on console
 #
 #
 module PatternPrint
