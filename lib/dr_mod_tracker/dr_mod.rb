@@ -3,10 +3,16 @@
 #
 #
 # https://www.lim.di.unimi.it/IEEE/VROS/FAQ/CRAMIG2.HTM
+#
+# TODO create a folder core with subcore folders
+# TODO rename dr_mod_tracker into dr_mod
+#
 require "lib/dr_mod_tracker/tracker_formats/protracker_1_1_b.rb"
 require "lib/dr_mod_tracker/sample/sample_print.rb"
 require "lib/dr_mod_tracker/load_tool.rb"
 require "lib/dr_mod_tracker/sample.rb"
+require "lib/dr_mod_tracker/song/song_setup.rb"
+require "lib/dr_mod_tracker/song/song_print.rb"
 require "lib/dr_mod_tracker/song.rb"
 require "lib/dr_mod_tracker/cell.rb"
 require "lib/dr_mod_tracker/pattern/pattern_print.rb"

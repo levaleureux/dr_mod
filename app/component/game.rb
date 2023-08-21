@@ -9,6 +9,7 @@ class Game
     self.args      = args
     @scene_manager = SceneManager.new args
     @scene_title   = Scene::Title.new args
+    # TODO sound scene
     post_init
   end
 
@@ -16,9 +17,11 @@ class Game
   # TODO use state directly
   #
   def tick
-    args.state.my_scenes[args.state.current_scene].tick
+    state.my_scenes[state.current_scene].tick
     @scene_manager.tick
+    # TODO inputs directly ?
     if args.inputs.keyboard.key_down.escape
+      # TODO $gtk
       args.gtk.request_quit
     end
   end

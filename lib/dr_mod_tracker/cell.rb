@@ -1,3 +1,6 @@
+#
+# A pattern has line and a line has cell
+#
 class Cell
   include LoadTool
   attr_reader :sample_number, :note_period, :effect_command, :effect_argument

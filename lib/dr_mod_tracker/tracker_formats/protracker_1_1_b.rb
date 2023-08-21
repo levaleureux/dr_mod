@@ -19,7 +19,8 @@ the module/song uses 15 samples or the text has been
 removed to make the module harder to rip.
   Star trekker puts 'FLT4' or 'FLT8' there instead.  "
   },
-  #Information for the next 30 samples starts here. It's just like the info forsample 1.
+  #Information for the next 30 samples starts here.
+  # It's just like the info forsample 1.
   #
   # Offset Bytes Description
   # 50     30    Sample 2...
