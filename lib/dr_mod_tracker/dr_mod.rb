@@ -9,6 +9,7 @@
 #
 require "lib/dr_mod_tracker/tracker_formats/protracker_1_1_b.rb"
 require "lib/dr_mod_tracker/sample/sample_print.rb"
+require "lib/dr_mod_tracker/dr_binary_file.rb"
 require "lib/dr_mod_tracker/load_tool.rb"
 require "lib/dr_mod_tracker/sample.rb"
 require "lib/dr_mod_tracker/samples_loader.rb"
