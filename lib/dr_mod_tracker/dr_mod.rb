@@ -11,6 +11,7 @@ require "lib/dr_mod_tracker/tracker_formats/protracker_1_1_b.rb"
 require "lib/dr_mod_tracker/sample/sample_print.rb"
 require "lib/dr_mod_tracker/load_tool.rb"
 require "lib/dr_mod_tracker/sample.rb"
+require "lib/dr_mod_tracker/samples_loader.rb"
 require "lib/dr_mod_tracker/song/song_setup.rb"
 require "lib/dr_mod_tracker/song/song_print.rb"
 require "lib/dr_mod_tracker/song.rb"
@@ -22,11 +23,11 @@ require "lib/dr_mod_tracker/pattern.rb"
 # The main class of the lib
 #
 class DrMod
-  attr_accessor :song, :samples, :patterns
+  #attr_accessor :song, :samples, :patterns
+  attr_reader :song, :samples, :patterns
 
   def initialize file_path
-    @mod_data          = $gtk.read_file file_path
-    @cumulative_offset = 0
+    @mod_data = $gtk.read_file file_path
   end
 
   def puts_mod_data
@@ -37,21 +38,14 @@ class DrMod
     puts_title "Song data"
     @song = Song.new @mod_data
     @song.puts_info
-    load_all_first_part
+    load_samples
+    load_all_2nd_part
   end
 
   def puts_title title
     # puts "--------------------------------------------"
     puts " #{title}"
     puts "--------------------------------------------"
-  end
-
-  def load_samples
-    @samples = []
-    32.times do |sample_num|
-      @samples.push Sample.new sample_num, @mod_data
-    end
-    puts_sample_info
   end
 
   def load_patterns
@@ -65,37 +59,23 @@ class DrMod
     #@patterns.map &:puts_info
   end
 
-  def load_samples_data
-    @samples.each do |sample|
-      offset = @song.samples_start_at + @cumulative_offset
-      sample.decode_data offset
-      @cumulative_offset += sample.length
-    end
-  end
-
   private
 
   # TODO the split and puts title show there is something wrong
   #
-  def load_all_first_part
-    puts_title "Samples list sisis"
-    load_samples
-    load_all_2nd_part
+  def load_samples
+    puts_title "Samples list"
+    samples_loader = SamplesLoader.new @mod_data
+    @samples       = samples_loader.load
+    samples_loader.puts_sample_info
   end
 
   def load_all_2nd_part
     puts_title "Pattern list"
     load_patterns
-    puts_title "Samples data"
-    load_samples_data
+    #puts_title "Samples data"
+    #load_samples_data
     @samples.map &:puts_info_data
-  end
-
-  def puts_sample_info
-    @samples.each do |sample|
-      puts "=========------------========______========="
-      sample.puts_info
-    end
   end
 
 end
