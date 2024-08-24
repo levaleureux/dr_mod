@@ -1,4 +1,7 @@
-puts "let read a mod"
+#
+# TODO to move in a XM read project
+#
+puts "let read a xm"
 file = File.open("2min.xm", "rb")
 contents = file.read
 

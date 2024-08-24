@@ -1,3 +1,8 @@
+#
+# this file is here to test the lib outside dragonruby
+# It can be theoriticaly used in another software (rails?)
+#
+#
 require "./dr_mod.rb"
 
 if ARGV.empty?

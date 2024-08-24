@@ -6,7 +6,10 @@ detectors:
   # You can disable smells completely
   IrresponsibleModule:
     enabled: false
-
+      #WritableAttribute:
+      #enabled: false
+  #FeatureEnvy:
+  #enabled: true
   # You can use filters to silence Reek warnings.
   # Either because you simply disagree with Reek (we are not the police) or
   # because you want to fix this at a later point in time.
@@ -19,8 +22,11 @@ detectors:
   # in the corresponding smell documentation in /docs. In most cases you probably can just go
   # with the defaults as documented in defaults.reek.yml.
   DataClump:
-    max_copies: 3
-    min_clump_size: 3
+    max_copies:      3
+    min_clump_size:  3
+
+      #exclude:
+      #  - WritableAttribute
 
 ### Directory specific configuration
 
@@ -32,14 +38,15 @@ detectors:
 # so all paths have to point to directories.
 # A Dir.glob pattern can be used.
 directories:
-  "web_app/app/controllers":
-    NestedIterators:
-      enabled: false
-  "web_app/app/helpers**":
+  #"web_app/app/controllers":
+  #  NestedIterators:
+  #    enabled: false
+  "spec":
     UtilityFunction:
       enabled: false
-  "web_app/lib/**/test/**":
-    UtilityFunction:
+
+  "lib":
+    InstanceVariableAssumption:
       enabled: false
 
 ### Excluding directories
@@ -50,5 +57,5 @@ exclude_paths:
   - lib/rake/legacy_tasks
   - lib/smelly.rb
   - db/migrate
-  - spec
   - config
+  # - spec

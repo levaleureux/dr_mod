@@ -1,5 +1,8 @@
 module Concern::Background
 
+  #
+  # TODO is outputs part of gtk_args
+  #
   def draw_screen_box
     args.outputs.lines  << [718, 0, 718, 1280]
     args.outputs.lines  << [1, 0, 1, 1280]
@@ -11,15 +14,15 @@ module Concern::Background
     args.outputs.sprites << rect.merge({ path: pic })
   end
 
+  #
+  # TODO move to sound scene
+  #
   def show_text
     sound_info = []
-    sound_info <<  "num:    #{@sound.sample.num}"
-    sound_info <<  "name:   #{@sound.sample.name}"
-    sound_info <<  "length: #{@sound.sample.length}"
     sound_info <<  ""
-    sound_info <<  "finetune:      #{@sound.sample.finetune}"
-    sound_info <<  "volume:        #{@sound.sample.volume}"
-    sound_info <<  "repeat_point:  #{@sound.sample.repeat_point}"
+    sound_info <<  "finetune:      #{@sound.sample.finetune}      num:    #{@sound.sample.num}"
+    sound_info <<  "volume:        #{@sound.sample.volume}     name:   #{@sound.sample.name}"
+    sound_info <<  "repeat_point:  #{@sound.sample.repeat_point}      length: #{@sound.sample.length}"
     sound_info <<  "repeat_length: #{@sound.sample.repeat_length}"
     data = @sound.sample.data[0, 20]
     if data.length == 0
@@ -32,12 +35,12 @@ module Concern::Background
         .merge(text: info, vertical_alignment_enum: 1, alignment_enum: 0,
                size_enum: 8)
     end
-    args.outputs.labels << args.layout.rect(row: 10, col: 1)
+    args.outputs.labels << args.layout.rect(row: 8, col: 1)
       .merge(text: "sample_rate: #{@sound.sample_rate} custom rate: #{@sound.custom_rate}",
              vertical_alignment_enum: 1, alignment_enum: 0,
              size_enum: 8)
     count = @sound.sample_count
-    args.outputs.labels << args.layout.rect(row: 11, col: 1)
+    args.outputs.labels << args.layout.rect(row: 9, col: 1)
       .merge(text: "duration:    #{@sound.custom_duration.to_i}/#{count}",
              vertical_alignment_enum: 1, alignment_enum: 0,
              size_enum: 8)
@@ -46,6 +49,7 @@ module Concern::Background
   def init_dr_mod
     #file_path = "/mygame/sounds/falso_siddo.mod"
     file_path = "/mygame/sounds/alex_menchi_-_xenon_3_miniblast.mod"
+    file_path = "sounds/alex_menchi_-_xenon_3_miniblast.mod"
 
     @mod = DrMod.new file_path
     @mod.load_all
@@ -59,6 +63,5 @@ module Concern::Background
       one_period * frequency # Generate 1 second worth of sound
     end
     @current_line = 0
-
   end
 end
