@@ -21,6 +21,10 @@ module SongSetup
   # array
   #
   def set_song_positions
+    # TODO ???? constant issue ???
+    T_SPEC = PROTRACKER_1_1_B
+    consti= T_SPEC[:song_positions][:offset]
+    puts "constante isssue ? >#{consti}<"
     offset = T_SPEC[:song_positions][:offset]
     @song_positions = @mod_data[offset, 128].unpack("C*")
   end

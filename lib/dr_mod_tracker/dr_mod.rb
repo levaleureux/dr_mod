@@ -28,6 +28,12 @@ class DrMod
   attr_reader :song, :samples, :patterns
 
   def initialize file_path
+    # TODO must raise if no file
+    #
+    file_stat = $gtk.stat_file file_path
+    if file_stat == nil
+      raise "file not found: #{file_path}"
+    end
     @mod_data = $gtk.read_file file_path
   end
 
@@ -66,7 +72,7 @@ class DrMod
   #
   def load_samples
     puts_title "Samples list"
-    samples_loader = SamplesLoader.new @mod_data
+    samples_loader = SamplesLoader.new @mod_data, @song
     @samples       = samples_loader.load
     samples_loader.puts_sample_info
   end

@@ -1,16 +1,3 @@
-require "app/scenes/concern.rb"
-require "app/scenes/concerns/background.rb"
-require "app/scenes/concerns/sound_box.rb"
-require "app/scenes/concerns/pattern_box.rb"
-
-def load_dep_files path
-  $gtk.list_files(path).each do |ffile|
-    require File.join(path, file)
-  end
-end
-
-load_dep_files "app/scenes"
-
 # Base of scenes class
 #
 class Scene
@@ -29,6 +16,20 @@ class Scene
 
   def add_to_scenes
     puts self.class::NAME
-    state.my_scenes[scene.class::NAME] = self
+    state.my_scenes[self.class::NAME] = self
   end
 end
+
+require "app/scenes/concern.rb"
+require "app/scenes/concerns/background.rb"
+require "app/scenes/concerns/sound_box.rb"
+require "app/scenes/concerns/pattern_box.rb"
+require "app/component/pattern_player.rb"
+
+def load_dep_files path
+  $gtk.list_files(path).each do |file|
+    require File.join(path, file)
+  end
+end
+
+load_dep_files "app/scenes"

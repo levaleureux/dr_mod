@@ -27,11 +27,11 @@ module SongPrint
     puts "tracker_byte: #{@tracker_byte}"
   end
 
-  def puts_line_blocks
+  def puts_line_blocks blocks
     blocks.each do |block|
       line = block.join(' ')
       puts line
-      puts
+      puts # "\n"
     end
   end
 

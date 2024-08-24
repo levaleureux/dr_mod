@@ -8,6 +8,8 @@ class Song
   attr_accessor :name, :song_name, :length, :tracker_byte,
     :song_positions, :format_signature, :samples_data_offset
 
+  # mod_data is loaded in DrMod
+  #
   def initialize mod_data
     @s_offset = 0
     @mod_data = mod_data
@@ -15,6 +17,8 @@ class Song
   end
 
   def pattern_count
+    puts "songspositions"
+    puts @song_positions
     @song_positions.max
   end
 
@@ -31,7 +35,7 @@ class Song
   # this is used by sample to know where to start
   #
   def samples_start_at
-    1084 + pattern_count * pattern_size
+    1084 + (pattern_count * pattern_size)
   end
 
   private
