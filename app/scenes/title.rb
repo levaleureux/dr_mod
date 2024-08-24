@@ -1,7 +1,7 @@
 #
 # First scene
 #
-class Scene::Title
+class Scene::Title < Scene
   include ::Concern::Background
   include ::Concern::SoundBox
   include ::Concern::PatternBox
