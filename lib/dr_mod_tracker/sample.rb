@@ -14,6 +14,7 @@ class Sample
   attr_reader  :num, :s_offset, :name, :length, :finetune, :volume,
     :repeat_point, :repeat_length, :data, :normalized_data
   #attr_accessor  :num, :s_offset, :name, :length, :finetune, :volume,
+  attr_accessor  :finetune
 
   def initialize num, mod_data
     @num      = num
@@ -38,19 +39,19 @@ class Sample
   # it's an amiga word
   #
   def set_length
-    offset  = offet_for :sample_length
+    offset  = offset_for :sample_length
     @length = decode_amiga_word @mod_data, offset
   end
 
   def set_finetune
-    offset = offet_for :finetune
+    offset = offset_for :finetune
     size      = T_SPEC[:finetune][:bytes]
     @finetune = @mod_data[offset, size].unpack("C").first
     #@finetune = set_attr :finetune
   end
 
   def set_volume
-    offset = offet_for :volume
+    offset = offset_for :volume
     size        = T_SPEC[:volume][:bytes]
     volume_byte = @mod_data[offset, size].unpack("C").first
     #@volume     = (volume_byte & 0x7F) / 2
@@ -59,22 +60,24 @@ class Sample
 
   def set_repeat_point
     #@repeat_point = @mod_data[offset, 2].unpack("S>").first
-    offset = offet_for :repeat_point
+    offset = offset_for :repeat_point
     @repeat_point = decode_amiga_word @mod_data, offset
   end
 
   def set_repeat_length
-    offset         = offet_for :repeat_length
+    offset         = offset_for :repeat_length
     @repeat_length = decode_amiga_word @mod_data, offset
   end
 
   def set_attr attr_name
-    offset = offet_for attr_name
+    offset = offset_for attr_name
     size   = T_SPEC[attr_name][:bytes]
     @mod_data[offset, size]
   end
 
   def decode_data offset
+    puts "offest #{offset}<-"
+    puts "length #{@length}<-"
     @data = @mod_data[offset..(offset + @length - 1)].unpack("C*")
     normalized
   end
@@ -101,7 +104,7 @@ class Sample
 
   private
 
-  def offet_for attr_name
+  def offset_for attr_name
     T_SPEC[attr_name][:offset] + @s_offset
   end
 end

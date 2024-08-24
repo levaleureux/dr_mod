@@ -4,10 +4,11 @@
 class SamplesLoader
   attr_reader :samples
 
-  def initialize mod_data
+  def initialize mod_data, song
     @mod_data          = mod_data
     @cumulative_offset = 0
     @samples           = []
+    @song              = song
   end
 
   def load
@@ -24,7 +25,10 @@ class SamplesLoader
   end
 
   def load_samples_data
-    @samples.each do |sample|
+    @samples.each_with_index do |sample, index|
+      puts "load sample #{index}"
+      puts "samples_start_at #{@song.samples_start_at}"
+      puts "cumulative_offset #{@cumulative_offset}"
       offset = @song.samples_start_at + @cumulative_offset
       sample.decode_data offset
       @cumulative_offset += sample.length

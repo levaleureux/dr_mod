@@ -13,7 +13,7 @@ class Pattern
   def initialize mod_data, num
     @num      = num
     @mod_data = mod_data
-    init_attrs mod_data
+    init_attrs # mod_data
     decode_rows
   end
 
@@ -24,9 +24,9 @@ class Pattern
   end
 
   def decode_pattern_line line_offset
-    line_data  = @mod_data[@pattern_offset + (line_offset * 16), 16]
+    line_data   = @mod_data[@pattern_offset + (line_offset * 16), 16]
     @note_bytes = line_data.unpack("C*")
-    build_note_effects note_bytes, []
+    build_note_effects []
   end
 
   private
@@ -42,6 +42,7 @@ class Pattern
   end
 
   def init_attrs
+    T_SPEC          = PROTRACKER_1_1_B
     pattern_data    = T_SPEC[:pattern_data]
     @size           = pattern_data[:bytes]
     @pattern_offset = pattern_data[:offset] + @size * @num
