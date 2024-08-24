@@ -2,6 +2,7 @@ require 'lib/dr_mod_tracker/dr_mod.rb'
 require "app/scenes/concern.rb"
 require "app/scene.rb"
 require "app/component/game.rb"
+require "app/component/sfx_player.rb"
 
 def tick args
   args.state.game ||= Game.new args
