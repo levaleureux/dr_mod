@@ -20,3 +20,19 @@ https://github.com/rombankzero/pocketmod/blob/master/pocketmod.h
 
 https://github.com/electronoora/webaudio-mod-player/blob/master/js/pt.js
 
+# Run the tests
+
+Test are write with dr_spec
+
+you can run them by typing
+
+```
+ dragonruby . --eval app/tests.rb --no-tick --spec-tags player,levels
+```
+
+# Pull request
+
+Pull request are welcome.
+Test must pass without regression.
+
+Any design discussion or documentation are welcome too.
