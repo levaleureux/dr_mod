@@ -30,6 +30,16 @@ you can run them by typing
  dragonruby . --eval app/tests.rb --no-tick --spec-tags player,levels
 ```
 
+## Adding spec
+
+Lib spec are in
+```
+  lib/dr_mod_tracker/spec/*_spec.rb
+```
+
+
+
+
 # Pull request
 
 Pull request are welcome.
