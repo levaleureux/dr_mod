@@ -4,10 +4,11 @@ module Concern::Background
   # TODO is outputs part of gtk_args
   #
   def draw_screen_box
-    args.outputs.lines  << [718, 0, 718, 1280]
-    args.outputs.lines  << [1, 0, 1, 1280]
-    args.outputs.lines  << [0,1, 718, 1]
-    args.outputs.lines  << [0,1280, 718, 1280]
+    args.outputs.lines  << [718,    0, 718, 1280]
+    args.outputs.lines  << [1,      0,   1, 1280]
+    args.outputs.lines  << [0,      1, 718,    1]
+    args.outputs.lines  << [0,   1280, 718, 1280]
+    #
     rect = args.layout.rect(row: 0, col: 0, w: 12, h: 24)
     pic  = "sprites/title_bg_001.png"
     pic  = "sprites/anim_00007_pixelate.png"

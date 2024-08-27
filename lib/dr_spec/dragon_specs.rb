@@ -59,5 +59,6 @@ require "spec/component/game_spec.rb"
 #
 require "lib/dr_mod_tracker/spec/dr_binary_file_spec.rb"
 require "lib/dr_mod_tracker/spec/dr_mod_spec.rb"
+require "lib/dr_mod_tracker/spec/song_spec.rb"
 
 require "spec/main_spec.rb"
