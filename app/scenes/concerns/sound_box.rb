@@ -1,4 +1,5 @@
 module Concern::SoundBox
+  # TODO rename @sounds or @samples
   def sound_section
     @sound.args = args
     @sound.tick

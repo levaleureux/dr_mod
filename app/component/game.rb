@@ -9,6 +9,7 @@ class Game
     self.args      = args
     @scene_manager = SceneManager.new args
     @scene_title   = Scene::Title.new args
+    @scene_sample  = Scene::Sample.new args
     # TODO sound scene
     post_init
   end
@@ -37,7 +38,7 @@ class Game
   end
 
   def post_init_scenes
-    [@scene_title].each do |scene|
+    [@scene_title, @scene_sample].each do |scene|
       scene.args = args
       scene.add_to_scenes
     end

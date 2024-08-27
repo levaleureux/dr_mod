@@ -19,6 +19,7 @@ class Scene::Title < Scene
 
   def tick
     switch_space if args.inputs.keyboard.key_down.c
+    switch_scene if args.inputs.keyboard.key_down.s
     tick_current_scene
   end
 
@@ -46,6 +47,11 @@ class Scene::Title < Scene
     @sound           = SfxPlayer.new args, @mod, :my_audio
     @patterns_player = PatternPlayer.new args, @mod, @channels
     # play_wav_sound :base_2, "jazz-kick-1"
+  end
+
+  def switch_scene
+    scene_quit
+    args.state.next_scene = :sample
   end
 
   def start_game
