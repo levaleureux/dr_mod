@@ -2,8 +2,7 @@
 # Scene dedicated to sample work
 #
 class Scene::Sample < Scene
-  # TODO include
-  # module Concern::SoundBox
+  include ::Concern::SoundBox
   attr_gtk
   NAME = :sample
 
@@ -14,6 +13,14 @@ class Scene::Sample < Scene
 
   def tick
     switch_space if args.inputs.keyboard.key_down.c
+    if args.state.action == false
+      puts args.state.current_samples.class
+      args.state.action = true
+      puts args.state.action
+    end
+      @sound = args.state.current_samples
+      show_text
+      sound_section
   end
 
   def switch_space

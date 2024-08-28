@@ -11,6 +11,5 @@ module Concern::SoundBox
 
     @sound.rate_down if args.inputs.keyboard.key_down.p
     @sound.rate_up   if args.inputs.keyboard.key_down.o
-    show_text
   end
 end
