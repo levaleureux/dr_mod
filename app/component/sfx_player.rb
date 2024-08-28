@@ -117,18 +117,6 @@ class SfxPlayer
   # option de loop toggle ?
   #
   def init_draw(args)
-    # Crée un render target (une surface sur laquelle dessiner)
-    # waveform = args.render_target(:waveform)
-    # args.render_target(:waveform).width = 640
-    # args.render_target(:waveform).height = 100
-    #puts "yooooooo"
-    #puts args.render_target
-    #puts args.render_target(:waveform)
-    #args.render_target(:waveform).solids << [0, 0, 640, 100]
-    #
-    # waveform.width  = 640
-    # waveform.height = 100
-
     # Tableau d'exemple de données normalisées entre 0 et 1
     @wave_data = [0.5, 0.6, 0.7, 0.4, 0.2, 0.1, 0.3, 0.5, 0.6, 0.5]
     @wave_data = sample.normalized_data

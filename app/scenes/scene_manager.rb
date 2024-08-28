@@ -24,7 +24,9 @@ class SceneManager
       end_tick
     end
   end
+
   private
+
   def guard
     # capture the current scene to verify it didn't change through
     # the duration of tick

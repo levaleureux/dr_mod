@@ -50,7 +50,7 @@ class Scene::Title < Scene
 
   def start_game
     scene_quit
-    args.state.next_scene = :level
+    args.state.next_scene = :sound
   end
 
   def scene_quit
