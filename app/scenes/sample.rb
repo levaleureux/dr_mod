@@ -59,8 +59,13 @@ class Scene::Sample < Scene
              vertical_alignment_enum: 1, alignment_enum: 0,
              size_enum: 8)
     count = @sound.sample_count
+    # args.outputs.labels << args.layout.rect(row: 9, col: 1)
+      # .merge(text: "duration:    #{@sound.custom_duration.to_i}/#{count}",
+             # vertical_alignment_enum: 1, alignment_enum: 0,
+             # size_enum: 8)
+
     args.outputs.labels << args.layout.rect(row: 9, col: 1)
-      .merge(text: "duration:    #{@sound.custom_duration.to_i}/#{count}",
+      .merge(text: "note:    #{@note_name}",
              vertical_alignment_enum: 1, alignment_enum: 0,
              size_enum: 8)
   end

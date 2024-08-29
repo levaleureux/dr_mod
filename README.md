@@ -20,6 +20,36 @@ https://github.com/rombankzero/pocketmod/blob/master/pocketmod.h
 
 https://github.com/electronoora/webaudio-mod-player/blob/master/js/pt.js
 
+# How to use it.
+
+For now there is 2 screen
+
+1. main   screen, with the traker
+2. sample screen, with the sample visualisation
+
+## key
+
+on main screen you can press
+1. 'space' to play
+2. 's' to go to the sample screen
+3. 'r' to reset
+
+on the sample screen you can press
+
+1. 'c' to go back to tracker screen
+2. 'todo' to play sample
+3. 'todo' on play mode press a note key to play it
+4. 'todo' to switch notation system, English and frensh
+
+# Why I implement more than one notation system.
+
+1. I'm french so I learn music with the french system (make sence).
+2. It's more easy to debug something that is more easy to read and understand
+   for you.
+3. I belive the more you train you brain with cultural difference, the bettre
+   you understand what difference and history mean, and become a more savy and
+   good citizen :) :) (don't fight make people smart :) )
+
 # Run the tests
 
 Test are write with dr_spec
@@ -27,7 +57,9 @@ Test are write with dr_spec
 you can run them by typing
 
 ```
- dragonruby . --eval app/tests.rb --no-tick --spec-tags player,levels
+ dragonruby . --eval app/tests.rb --no-tick
+ # --spec-tags traker, sampler
+ # tag are not used now
 ```
 
 ## Adding spec
