@@ -7,7 +7,7 @@ spec :another_spec do
     end
 
     it "expectation_3" do |args, assert|
-      puts "I'm the num 3"
+      puts "I'm the num 3".blue
       puts @a = @a * 3
       expect(@a)
         .to(eq 12, fail_with: "nope 12")

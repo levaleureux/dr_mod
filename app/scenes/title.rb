@@ -3,7 +3,6 @@
 #
 class Scene::Title < Scene
   include ::Concern::Background
-  include ::Concern::SoundBox
   include ::Concern::PatternBox
   attr_gtk
   NAME = :title
@@ -18,16 +17,8 @@ class Scene::Title < Scene
   end
 
   def tick
-    switch_space if args.inputs.keyboard.key_down.c
+    switch_scene if args.inputs.keyboard.key_down.s
     tick_current_scene
-  end
-
-  def switch_space
-    if @space == :traker
-      @space = :sound_lab
-    else
-      @space = :traker
-    end
   end
 
   private
@@ -36,7 +27,6 @@ class Scene::Title < Scene
     init_dr_mod
     @channels = []
     init_mod_elements
-    @space = :traker
   end
 
   def init_mod_elements
@@ -46,6 +36,11 @@ class Scene::Title < Scene
     @sound           = SfxPlayer.new args, @mod, :my_audio
     @patterns_player = PatternPlayer.new args, @mod, @channels
     # play_wav_sound :base_2, "jazz-kick-1"
+  end
+
+  def switch_scene
+    scene_quit
+    args.state.next_scene = :sample
   end
 
   def start_game
@@ -61,11 +56,15 @@ class Scene::Title < Scene
   # TODO must use a scene manage patter
   #
   def tick_current_scene
-    if @space == :traker
-      @patterns_player.args = args; @patterns_player.tick
-    else
-      sound_section
-    end
+    post_init unless @post_init
+    @patterns_player.args = args
+    @patterns_player.tick
   end
 
+  def post_init
+    args.state.current_samples = @sound
+    puts args.state.current_samples
+    puts "post init --------------------------------"
+    @post_init = true
+  end
 end

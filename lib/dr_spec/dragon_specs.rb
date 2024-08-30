@@ -56,8 +56,11 @@ require "spec/matchers_2_spec.rb"
 require "spec/component/game_spec.rb"
 #
 # dr_mod lib spec
+require "lib/dr_mod_tracker/cell.rb"
 #
 require "lib/dr_mod_tracker/spec/dr_binary_file_spec.rb"
 require "lib/dr_mod_tracker/spec/dr_mod_spec.rb"
+require "lib/dr_mod_tracker/spec/song_spec.rb"
+require "lib/dr_mod_tracker/spec/cell_spec.rb"
 
 require "spec/main_spec.rb"
