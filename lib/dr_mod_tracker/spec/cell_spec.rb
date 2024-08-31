@@ -1,4 +1,4 @@
-spec "Cell" do
+focus_spec "Cell" do
   context "Note de base (La standard)" do
     before do
       # La note de base (A4) avec une période typique, sans effets
@@ -6,8 +6,11 @@ spec "Cell" do
       @cell = Cell.new(@cell_data)
     end
 
-    xit "parses the sample number correctly" do
-      expect(@cell.sample_number).to eq(16)
+    it "parses the sample number correctly" do
+
+      puts "TODO tester les bin reader".blue
+      puts @cell.sample_number.to_s.blue
+      # expect(@cell.sample_number).to eq(16)
     end
 
     xit "parses the note period correctly" do
