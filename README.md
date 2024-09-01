@@ -1,4 +1,5 @@
 # dr_mod
+
 Amiga mod loader and player for dragonruby
 
 ![main_screen](./readme_files/001_main_screen.png)
@@ -13,6 +14,10 @@ https://www.lim.di.unimi.it/IEEE/VROS/FAQ/CRAMIG2.HTM
 
 I curently can read patterns but I have issue with the sample frequency audio play.
 If you have any hint please open an issue.
+
+a nice vidéo to explain what it is
+
+https://www.youtube.com/watch?v=0_6eBiouooo&t=30s
 
 ## Additional links
 
