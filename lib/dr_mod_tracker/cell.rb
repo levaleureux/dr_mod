@@ -16,9 +16,12 @@ class Cell
   # L'initialisation de l'objet Cell prend un tableau de 4 octets (cell_data)
   # représentant une cellule d'une ligne d'un pattern dans un fichier MOD.
   def initialize(cell_data)
+    @cell_data = cell_data
     # NOTE: see CellBin and doc .md
     # TODO: add some validation: size array, type
     @sample_number = read_sample_number cell_data
+    puts "yooo".red
+    puts read_sample_number cell_data
 
     # @note_period : Cet attribut représente la période de la note jouée.
     # Les 12 bits les moins significatifs sont répartis entre le premier et le deuxième octet.

@@ -18,12 +18,14 @@ module CellBin
   # 4 bits in Byte 1, the 4 first bits
   # 4 bits in Byte 3, the 4 first bits
   #
-  def read_sample_number cell_array
-    high_weights = high_bits(cell_array[0])
-    low_weights  = high_bits(cell_array[2])
+  def read_sample_number cell_bytes
+    high_weights = high_bits(cell_bytes[0])
+    low_weights  = high_bits(cell_bytes[2])
     # move low_bits by 4 column and merge with | operator
     # to create one Byte
     sample_number = high_weights | (low_weights >> 4)
+    puts "sample_number #{cell_bytes} #{sample_number}"
+    sample_number
   end
 
   # keep only the 4 left bits
