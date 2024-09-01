@@ -10,15 +10,15 @@
 class Cell
 
   include LoadTool
+  include CellBin
   attr_reader :sample_number, :note_period, :effect_command, :effect_argument
 
   # L'initialisation de l'objet Cell prend un tableau de 4 octets (cell_data)
   # représentant une cellule d'une ligne d'un pattern dans un fichier MOD.
   def initialize(cell_data)
-    # @sample_number : Cet attribut représente l'instrument (ou échantillon) à utiliser.
-    # Le numéro de l'échantillon est stocké dans 4 bits du premier octet (cell_data[0] & 0xF0)
-    # et 4 bits du troisième octet (cell_data[2] & 0xF0) sont décalés de 4 bits à droite puis combinés.
-    @sample_number = (cell_data[0] & 0xF0) | ((cell_data[2] & 0xF0) >> 4)
+    # NOTE: see CellBin and doc .md
+    # TODO: add some validation: size array, type
+    @sample_number = read_sample_number cell_data
 
     # @note_period : Cet attribut représente la période de la note jouée.
     # Les 12 bits les moins significatifs sont répartis entre le premier et le deuxième octet.
