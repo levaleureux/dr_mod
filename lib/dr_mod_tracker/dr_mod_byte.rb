@@ -1,5 +1,6 @@
 #
 # byte manipulation
+# TODO look not used, removed
 #
 class DrModByte
   def initialize octal

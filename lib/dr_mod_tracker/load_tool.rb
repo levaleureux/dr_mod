@@ -5,6 +5,10 @@ module LoadTool
 
   T_SPEC = PROTRACKER_1_1_B
 
+  #
+  #
+  # TODO is it code duplication
+  #
   def decode_amiga_word file_data, offset
     byte1 = file_data.getbyte offset
     byte2 = file_data.getbyte offset + 1
