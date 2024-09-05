@@ -3,11 +3,10 @@ spec "Cell" do
     before do
       # La note de base (A4) avec une période typique, sans effets
       @cell_data = [0x10, 0x38, 0x00, 0x00]
-      @cell = Cell.new(@cell_data)
+      @cell = Cell.new @cell_data
     end
 
     it "parses the sample number correctly" do
-
       puts "TODO tester les bin reader".blue
       puts @cell.sample_number.to_s.blue
       # expect(@cell.sample_number).to eq(16)
@@ -31,7 +30,7 @@ spec "Cell" do
     before do
       # Une note (A4) avec un effet d'arpège
       @cell_data = [0x12, 0x34, 0x01, 0x23]
-      @cell = Cell.new(@cell_data)
+      @cell = Cell.new @cell_data
     end
 
     xit "parses the sample number correctly" do
@@ -55,7 +54,7 @@ spec "Cell" do
     before do
       # Une cellule silencieuse sans note ni effet
       @cell_data = [0x00, 0x00, 0x00, 0x00]
-      @cell = Cell.new(@cell_data)
+      @cell = Cell.new @cell_data
     end
 
     it "sets sample_number to 0" do
@@ -81,12 +80,12 @@ end
 spec 'when reading sample number' do
 
   it 'returns correct sample number for basic case' do
-    @cell = Cell.new([0x10, 0x00, 0x20, 0x00])  # 0x1 | 0x2 = 0x12 = 18
+    @cell = Cell.new [0x10, 0x00, 0x20, 0x00]  # 0x1 | 0x2 = 0x12 = 18
     expect(@cell.sample_number).to eq(18)
   end
 
   it 'returns maximum possible sample number' do
-    @cell = Cell.new([0xF0, 0x00, 0xF0, 0x00])  # 0xF | 0xF = 0xFF = 255
+    @cell = Cell.new [0xF0, 0x00, 0xF0, 0x00]  # 0xF | 0xF = 0xFF = 255
     expect(@cell.sample_number).to eq(255)
   end
   it 'returns correct sample number for mixed bits' do
@@ -124,49 +123,35 @@ spec 'when reading note period' do
     expect(@cell.note_period).to eq(0)
   end
 
+  # TODO how to test it ??
+  #
   it 'print a note periode' do
-    @cell = Cell.new([0x00, 0x00, 0x00, 0x00])  # (0x0 << 8) | 0x00 = 0x000 = 0
+    @cell.print_note_period 570
   end
 end
 
 focus_spec 'when reading note names from periods in an octave (C-1 to C-2)' do
-  it 'returns "C-1" for period 1712' do
-    @cell = Cell.new([0x06, 0xB0, 0x00, 0x00])  # Période 1712 (C-1)
-    puts "note en:#{@cell.note_en}:".blue
-  end
-
-  xit 'returns "D-1" for period 1616' do
-    @cell = Cell.new([0x06, 0x50, 0x00, 0x00])  # Période 1616 (D-1)
-    expect(@cell.note_en).to eq("D-1")
-  end
-
-  xit 'returns "E-1" for period 1524' do
-    @cell = Cell.new([0x05, 0xF4, 0x00, 0x00])  # Période 1524 (E-1)
-    expect(@cell.note_en).to eq("E-1")
-  end
-
-  xit 'returns "F-1" for period 1440' do
-    @cell = Cell.new([0x05, 0xA0, 0x00, 0x00])  # Période 1440 (F-1)
-    expect(@cell.note_en).to eq("F-1")
-  end
-
-  xit 'returns "G-1" for period 1356' do
-    @cell = Cell.new([0x05, 0x4C, 0x00, 0x00])  # Période 1356 (G-1)
+  it 'returns "C-1" for period 570' do
+    @cell = Cell.new([0x00, 0x02, 0x3A, 0x00])
+    puts "-------------------------".blue
+    puts @cell.note_en.to_s.red
+    @cell.print_note_period 570
+    puts "-------------------------".blue
     expect(@cell.note_en).to eq("G-1")
   end
 
-  xit 'returns "A-1" for period 1280' do
-    @cell = Cell.new([0x05, 0x00, 0x00, 0x00])  # Période 1280 (A-1)
-    expect(@cell.note_en).to eq("A-1")
+  it 'returns "G-1" for period 570' do
+    @cell = Cell.new([0x00, 0x02, 0x3A, 0x00])
+    expect(@cell.note_en).to eq("G-1")
   end
 
-  xit 'returns "B-1" for period 1208' do
-    @cell = Cell.new([0x04, 0xB8, 0x00, 0x00])  # Période 1208 (B-1)
+  it 'returns "B-1" for period 453' do
+    @cell = Cell.new([0x00, 0x01, 0xC5, 0x00])
     expect(@cell.note_en).to eq("B-1")
   end
 
-  xit 'returns "C-2" for period 856' do
-    @cell = Cell.new([0x03, 0x58, 0x00, 0x00])  # Période 856 (C-2)
+  it 'returns "C-2" for period 428' do
+    @cell = Cell.new([0x00, 0x01, 0xac, 0x00])
     expect(@cell.note_en).to eq("C-2")
   end
 
@@ -176,11 +161,9 @@ focus_spec 'when reading note names from periods in an octave (C-1 to C-2)' do
     params         = [ 0x00, 0x03, 0x58, 0x00] # Période 856 (C-2)
     cell           = Cell.new params
     note_period    = 856 # Correspond à C-1
-    expected_bytes = [0x03, 0x58] # (856 >> 8) & 0x0F          = 3, 856 & 0xFF = 0x80
-    puts "num-------".blue
-    puts cell.bytes_to_note_periode(params)
-    puts cell.note_periode_to_bytes(note_period)
-    expect(cell.note_periode_to_bytes(note_period)).to eq(expected_bytes)
+    expected_bytes = [0x03, 0x58]
+    # puts cell.bytes_to_note_periode(params)
+    expect(cell.note_period_to_bytes(note_period)).to eq(expected_bytes)
   end
 
   xit 'returns a 4-byte array with correct data for a given note period' do

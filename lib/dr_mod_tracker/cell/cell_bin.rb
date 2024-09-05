@@ -44,13 +44,20 @@ module CellBin
   # On prend les 4 bits les moins significatifs du premier octet (cell_data[0] & 0x0F)
   # qu'on déplace de 8 bits à gauche, puis on ajoute le deuxième octet entier (cell_data[1]).
   def bytes_to_note_periode(cell_data)
-    ((cell_data[0] & 0x0F) << 8) | cell_data[1]
+    ((cell_data[1] & 0x0F) << 8) | cell_data[2]
+  end
+
+  def print_note_period note_period
+    bytes = note_period_to_bytes(note_period)
+    str = format "note periored -%d- 0x%X 0x%X", note_period, bytes[0], bytes[1]
+    puts str
+    str
   end
 
   # Méthode de classe pour convertir une période de note
   # en 12 bits
   # soit 2 octet
-  def note_periode_to_bytes(note_period)
+  def note_period_to_bytes(note_period)
     # Bits 11-8
     note_shifted = (note_period >> 8)
     low_byte     = note_period & 0xFF

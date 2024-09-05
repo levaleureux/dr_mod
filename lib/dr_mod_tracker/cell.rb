@@ -35,9 +35,11 @@ class Cell
 
   def note_en
     T_SPEC = PROTRACKER_1_1_B
-    puts @note_period
+    puts @note_period.to_s.blue
+    puts T_SPEC[:notes][@note_period]
     note = @note_period == 0 ? "   " : T_SPEC[:notes][@note_period]
-    note == "" ? "blk" : note
+    note = note.to_s
+    note == "" ? "!!!" : note
   end
 
   def info_verbose
