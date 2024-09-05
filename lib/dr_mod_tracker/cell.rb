@@ -20,7 +20,6 @@ class Cell
     # NOTE: see CellBin and doc .md
     # TODO: add some validation: size array, type
     @sample_number = read_sample_number cell_data
-    puts "yooo".red
     puts read_sample_number cell_data
     @note_period = bytes_to_note_periode(cell_data)
     # @effect_command : Cet attribut représente la commande d'effet à appliquer à cette note.
@@ -40,6 +39,11 @@ class Cell
     note = @note_period == 0 ? "   " : T_SPEC[:notes][@note_period]
     note = note.to_s
     note == "" ? "!!!" : note
+  end
+
+  def note_fr_2
+    # hash avec note fr sur 2 char
+    # pottentiel note fr 1 et 3
   end
 
   def info_verbose

@@ -69,4 +69,5 @@ class Scene::Sample < Scene
              vertical_alignment_enum: 1, alignment_enum: 0,
              size_enum: 8)
   end
+
 end

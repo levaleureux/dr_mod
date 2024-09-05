@@ -49,7 +49,7 @@ module CellBin
 
   def print_note_period note_period
     bytes = note_period_to_bytes(note_period)
-    str = format "note periored -%d- 0x%X 0x%X", note_period, bytes[0], bytes[1]
+    str   = format "note periored -%d- 0x%X 0x%X", note_period, bytes[0], bytes[1]
     puts str
     str
   end
@@ -69,6 +69,10 @@ module CellBin
   def construct_cell_data_for_note_periode(note_period)
     bytes = note_periode_to_bytes(note_period)
     [bytes[0], bytes[1], bytes[2], 0x00]  # 4 bytes, le dernier étant initialisé à zéro
+  end
+
+  def insert_note_period_in_cell_data
+    # TODO
   end
 
 end
