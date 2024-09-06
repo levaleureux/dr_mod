@@ -24,6 +24,7 @@ require "app/scenes/concern.rb"
 require "app/scenes/concerns/background.rb"
 require "app/scenes/concerns/sound_box.rb"
 require "app/scenes/concerns/pattern_box.rb"
+require 'app/component/concerns/pattern_player/side_bar.rb'
 require "app/component/pattern_player.rb"
 
 def load_dep_files path

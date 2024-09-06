@@ -56,6 +56,7 @@ class Cell
 
   def info
     note = @note_period == 0 ? "   " : T_SPEC[:notes][@note_period]
+    note = "!!!" if note == nil
     note = note == "" ? "blk" : note
     data(note).join("\u2503")
   end

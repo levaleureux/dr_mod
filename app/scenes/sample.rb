@@ -7,20 +7,20 @@ class Scene::Sample < Scene
   NAME = :sample
 
   def initialize args
-    # TODO initialize @sound
-    # @sound           = SfxPlayer.new args, @mod, :my_audio
+    @sound         = SfxPlayer.new args, @mod, :my_audio
+    @keyboard_mode = "normal"
   end
 
   def tick
     switch_space if args.inputs.keyboard.key_down.c
+    # NOTE: ???
     if args.state.action == false
-      puts args.state.current_samples.class
       args.state.action = true
       puts args.state.action
     end
-      @sound = args.state.current_samples
-      show_text
-      sound_section
+    @sound = args.state.current_samples
+    show_text
+    keyboard_check
   end
 
   def switch_space
@@ -60,14 +60,21 @@ class Scene::Sample < Scene
              size_enum: 8)
     count = @sound.sample_count
     # args.outputs.labels << args.layout.rect(row: 9, col: 1)
-      # .merge(text: "duration:    #{@sound.custom_duration.to_i}/#{count}",
-             # vertical_alignment_enum: 1, alignment_enum: 0,
-             # size_enum: 8)
+    # .merge(text: "duration:    #{@sound.custom_duration.to_i}/#{count}",
+    # vertical_alignment_enum: 1, alignment_enum: 0,
+    # size_enum: 8)
 
     args.outputs.labels << args.layout.rect(row: 9, col: 1)
       .merge(text: "note:    #{@note_name}",
              vertical_alignment_enum: 1, alignment_enum: 0,
              size_enum: 8)
+    keyboard_info
   end
 
+  def keyboard_info
+    args.outputs.labels << args.layout.rect(row: -4, col: 1)
+      .merge(text: "keyboard mode : #{@keyboard_mode}",
+             vertical_alignment_enum: 1, alignment_enum: 0,
+             size_enum: 8)
+  end
 end
