@@ -21,7 +21,8 @@ class Game
     state.my_scenes[state.current_scene].tick
     @scene_manager.tick
     # TODO inputs directly ?
-    if args.inputs.keyboard.key_down.escape
+    # if args.inputs.keyboard.key_down.escape
+    if args.inputs.keyboard.key_down.period
       # TODO $gtk
       args.gtk.request_quit
     end

@@ -63,21 +63,8 @@ class SfxPlayer
         sample.normalized_data
         # sample.data
       end
-        sample.normalized_data
+      sample.normalized_data
     end
-  end
-
-  def start
-    args.audio[@channel] = {
-      input: [1,
-              custom_rate,
-              @generate_sounds[@current_sound]]
-    }
-  end
-
-  def stop
-    args.audio[@channel] = nil
-    @sample_count        = 0
   end
 
   def custom_rate
@@ -105,6 +92,48 @@ class SfxPlayer
     #@sample_rate = 41453
     #@sample_rate = 28_672
     @sample_rate = (70937892 / (856 * 2)).to_i
+  end
+
+  def start
+    args.audio[@channel] = {
+      input: [1,
+              custom_rate,
+              @generate_sounds[@current_sound]]
+    }
+  end
+
+  def stop
+    args.audio[@channel] = nil
+    @sample_count        = 0
+  end
+
+  def play_sound note_period
+    sample = @generate_sounds[@current_sound]
+    # Convertir le note_period en fréquence (Hz)
+    # La formule utilisée est : fréquence = 7093789 / (2 * note_period)
+    frequency = 7093789.0 / (2.0 * note_period)
+    # Calculer un taux de lecture basé sur la fréquence
+    # On va utiliser cette fréquence pour ajuster custom_rate
+    custom_rate_2 = frequency_to_custom_rate(frequency)
+    puts "custom rate:   #{custom_rate}"
+    puts "custom rate 2: #{custom_rate_2}"
+    puts "frequency:     #{frequency}"
+    # Définir le son sur le canal donné avec la fréquence ajustée
+    # args.audio[@channel] = { input: [1, custom_rate, sample] }
+    args.audio[@channel] = { input: [1, (frequency * 1).to_i, sample] }
+      # input: sample,
+      # rate: custom_rate,
+      # looping: false,  # Si vous voulez boucler, mettez à true
+      # gain: 1.0        # Contrôle du volume, 1.0 = volume normal
+  end
+
+  # Convertir la fréquence en taux de lecture personnalisé pour args.audio
+  def frequency_to_custom_rate(frequency)
+    # Fréquence de référence typique pour la lecture normale d'un sample
+    reference_frequency = 44100.0
+    # Calculer le facteur de taux par rapport à la fréquence de référence
+    custom_rate_2 = frequency / reference_frequency
+    custom_rate_2
   end
 
   # TODO rate_up rate_down

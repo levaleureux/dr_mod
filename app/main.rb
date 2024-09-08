@@ -9,7 +9,9 @@ def tick args
   args.state.game.args = args
   # args.state.game.post_init unless args.state.post_init
   args.state.game.tick
-  reset_game args if args.inputs.keyboard.key_down.r
+  # reset_game args if args.inputs.keyboard.key_down.r
+  # hash underscore
+  # ||||
 end
 
 def reset_game args
