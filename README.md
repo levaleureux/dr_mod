@@ -77,6 +77,23 @@ Lib spec are in
 
 
 
+# Development tools
+
+DragonRuby is a standalone runtime and does not use Bundler gems at runtime.
+The `Gemfile` is exclusively for linting and static analysis during development.
+
+```bash
+bundle install
+lefthook install
+```
+
+This sets up pre-commit hooks that run:
+- **rubocop** — style and lint checks
+- **reek** — code smell detection (non-blocking)
+
+Both use quiet wrappers (`bin/*_quiet`) that condense output to save tokens
+when working with AI coding assistants.
+
 # Pull request
 
 Pull request are welcome.
