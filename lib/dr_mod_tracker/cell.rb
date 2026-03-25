@@ -20,8 +20,8 @@ class Cell
     # NOTE: see CellBin and doc .md
     # TODO: add some validation: size array, type
     @sample_number = read_sample_number cell_data
-    puts "yooo".red
-    puts read_sample_number cell_data
+    # puts "yooo".red
+    # puts read_sample_number cell_data
 
     # @note_period : Cet attribut représente la période de la note jouée.
     # Les 12 bits les moins significatifs sont répartis entre le premier et le deuxième octet.
@@ -49,7 +49,7 @@ def info_verbose
 end
 
 def info
-  note = @note_period == 0 ? "   " :  T_SPEC[:notes][@note_period]
+  note = @note_period == 0 ? "   " :  LoadTool::T_SPEC[:notes][@note_period]
   note = note == "" ? "blk" : note
   data(note).join("\u2503")
 end
