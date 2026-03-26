@@ -14,7 +14,7 @@ class Sample
   attr_reader  :num, :s_offset, :name, :length, :finetune, :volume,
     :repeat_point, :repeat_length, :data, :normalized_data
   #attr_accessor  :num, :s_offset, :name, :length, :finetune, :volume,
-  attr_accessor  :finetune
+  # attr_accessor :finetune was here but finetune is read-only
 
   def initialize num, mod_data
     @num      = num

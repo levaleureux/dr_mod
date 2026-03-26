@@ -42,8 +42,8 @@ class Pattern
   end
 
   def init_attrs
-    T_SPEC          = PROTRACKER_1_1_B
-    pattern_data    = T_SPEC[:pattern_data]
+    t_spec          = PROTRACKER_1_1_B
+    pattern_data    = t_spec[:pattern_data]
     @size           = pattern_data[:bytes]
     @pattern_offset = pattern_data[:offset] + @size * @num
     @rows           = []

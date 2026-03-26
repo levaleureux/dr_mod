@@ -14,5 +14,6 @@ AllCops:
       - 'spec/payloads/**/*'
       - 'db/**/*'
       - 'config/**/*'
+      - 'lib/dr_mod_tracker/misc/**/*'  # scratchpad files, see #16
   DisabledByDefault: true
 

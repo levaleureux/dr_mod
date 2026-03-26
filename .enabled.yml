@@ -412,6 +412,11 @@ Style/SymbolLiteral:
   Description: Use plain symbols instead of string symbols when possible.
   Enabled: true
 
+Style/MethodDefParentheses:
+  Description: Omit parentheses in method definitions when not needed.
+  Enabled: true
+  EnforcedStyle: require_no_parentheses
+
 # Supports --auto-correct
 # TODO
 #Style/Tab:
@@ -506,7 +511,7 @@ Style/WhileUntilModifier:
   Enabled: true
 
 Layout/LineLength:
-  Max: 80
+  Max: 120
 
 
 # Supports --auto-correct

@@ -1,4 +1,4 @@
-def read_mod_file(file_path)
+def read_mod_file file_path
   File.open(file_path, "rb") do |file|
     # Lecture de l'en-tête du fichier MOD
     file.read(20) # Ignorer les premiers octets non nécessaires
@@ -19,7 +19,7 @@ end
 # Utilisation : spécifiez le chemin vers votre fichier MOD
 #read_mod_file("_death_race_.mod")
 
-def read_mod_file_2(file_path)
+def read_mod_file_2 file_path
   mod_data = File.binread(file_path)
 
   # Lecture de l'en-tête du fichier MOD
@@ -49,7 +49,7 @@ end
 # Utilisation : spécifiez le chemin vers votre fichier MOD
 #read_mod_file_2("_death_race_.mod")
 
-def read_mod_file_3(file_path)
+def read_mod_file_3 file_path
   mod_data = File.binread(file_path)
 
   # Lecture de l'en-tête du fichier MOD
@@ -92,7 +92,7 @@ end
 # Utilisation : spécifiez le chemin vers votre fichier MOD
 #read_mod_file_3("_death_race_.mod")
 
-def read_mod_file(file_path)
+def read_mod_file file_path
   mod_data = File.binread(file_path)
 
   # Lecture de l'en-tête du fichier MOD
@@ -124,7 +124,7 @@ end
 # Utilisation : spécifiez le chemin vers votre fichier MOD
 #read_mod_file("_death_race_.mod")
 
-def read_mod_file(file_path)
+def read_mod_file file_path
   mod_data = File.binread(file_path)
 
   # Lecture de l'en-tête du fichier MOD
@@ -166,7 +166,7 @@ end
 # Utilisation : spécifiez le chemin vers votre fichier MOD
 #read_mod_file("_death_race_.mod")
 
-def read_mod_file(file_path)
+def read_mod_file file_path
   mod_data = File.binread(file_path)
 
   # Lecture de l'en-tête du fichier MOD
@@ -207,7 +207,7 @@ end
 
 # Utilisation : spécifiez le chemin vers votre fichier MOD
 #read_mod_file("_death_race_.mod")
-def read_mod_file_header(file_path)
+def read_mod_file_header file_path
   #mod_data = File.binread(file_path, encoding: 'ASCII-8BIT')
   mod_data = File.binread(file_path)
 
@@ -224,7 +224,7 @@ def read_mod_file_header(file_path)
   puts "Nombre d'échantillons : #{number_of_samples}"
 end
 
-def read_mod_pattern_order_table(file_path)
+def read_mod_pattern_order_table file_path
   mod_data = File.binread(file_path)
 
   pattern_order_table = mod_data[952..1083]
@@ -236,7 +236,7 @@ def read_mod_pattern_order_table(file_path)
   end
 end
 
-def read_mod_sample_data(file_path)
+def read_mod_sample_data file_path
   mod_data = File.binread(file_path)
 
   sample_data_offset = 20 + (mod_data[950] * 4)
@@ -249,7 +249,7 @@ def read_mod_sample_data(file_path)
   end
 end
 
-def read_mod_sample_data(file_path)
+def read_mod_sample_data file_path
   mod_data = File.binread(file_path)
 
   sample_data_offset = 20
@@ -280,7 +280,7 @@ def read_mod_sample_data(file_path)
   end
 end
 
-def read_mod_sample_names(file_path)
+def read_mod_sample_names file_path
   mod_data = File.binread(file_path)
 
   sample_names_offset = 20
@@ -296,7 +296,7 @@ def read_mod_sample_names(file_path)
   end
 end
 
-def read_mod_sample_names(file_path)
+def read_mod_sample_names file_path
   mod_data = File.binread(file_path, encoding: 'ASCII-8BIT')
 
   sample_names_offset = 20
@@ -312,7 +312,7 @@ def read_mod_sample_names(file_path)
   end
 end
 
-def read_mod_sample_names(file_path)
+def read_mod_sample_names file_path
   mod_data = File.binread(file_path, encoding: 'ASCII-8BIT')
 
   sample_names_offset = 20
@@ -328,7 +328,7 @@ def read_mod_sample_names(file_path)
   end
 end
 
-def read_mod_sample_names(file_path)
+def read_mod_sample_names file_path
     #mod_data = File.binread(file_path, encoding: 'ASCII-8BIT')
     mod_data = File.binread(file_path)
 
@@ -349,7 +349,7 @@ def read_mod_sample_names(file_path)
     end
 end
 
-def read_mod_comment(file_path)
+def read_mod_comment file_path
   mod_data = File.binread(file_path)
 
   comment_offset = 1080
