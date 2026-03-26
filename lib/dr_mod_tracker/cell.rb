@@ -15,7 +15,7 @@ class Cell
 
   # L'initialisation de l'objet Cell prend un tableau de 4 octets (cell_data)
   # représentant une cellule d'une ligne d'un pattern dans un fichier MOD.
-  def initialize(cell_data)
+  def initialize cell_data
     @cell_data = cell_data
     # NOTE: see CellBin and doc .md
     # TODO: add some validation: size array, type

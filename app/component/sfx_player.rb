@@ -116,7 +116,7 @@ class SfxPlayer
   # faire une duration
   # option de loop toggle ?
   #
-  def init_draw(args)
+  def init_draw args
     # Crée un render target (une surface sur laquelle dessiner)
     # waveform = args.render_target(:waveform)
     # args.render_target(:waveform).width = 640
@@ -138,7 +138,7 @@ class SfxPlayer
     @done = true
   end
 
-  def draw_waveform(args, wave_data)
+  def draw_waveform args, wave_data
     waveform = args.render_target(:waveform)
     waveform.background_color = [100, 100, 100]  # Fond noir
 
@@ -160,7 +160,7 @@ class SfxPlayer
     end
   end
 
-  def tick_draw(args)
+  def tick_draw args
     init_draw(args) unless @done
 
     # Affiche l'onde sonore à l'écran
