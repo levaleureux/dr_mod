@@ -81,7 +81,7 @@ class SfxPlayer
   end
 
   def custom_rate
-    if sample.finetune = 0
+    if sample.finetune == 0
       sample.length    + 1
     else
       (@sample_rate / (2 * sample.finetune + 1)).to_i

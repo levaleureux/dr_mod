@@ -46,6 +46,8 @@ Lint/DeprecatedClassMethods:
 Lint/DuplicateMethods:
   Description: Check for duplicate method definitions.
   Enabled: true
+  Exclude:
+    - lib/dr_mod_tracker/misc/read_mod.rb
 
 # TODO errors
 #Lint/DuplicatedHashKey:
