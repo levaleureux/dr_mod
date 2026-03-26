@@ -165,6 +165,27 @@ class PatternPlayer
     args.outputs.solids << rect
   end
 
+  # ANALYSE #20 — Positionnement vertical des bandes colorées (verte/rouge)
+  #
+  # PROBLÈME IDENTIFIÉ :
+  # La position Y est calculée de manière RELATIVE (+=) par rapport à args.layout.rect(row: 0).
+  # Or dans render_line, la position Y est définie de manière ABSOLUE (=).
+  # Si layout.rect(row: 0).y != 624, les bandes ne s'alignent pas avec le texte.
+  #
+  # Formule actuelle : rect.y += 640 - row * 20 - 354
+  #   → Y final = layout_y(row:0) + (286 - row * 20)
+  #
+  # Formule du texte (render_line) : rect.y = 640 - row * 20 + 270
+  #   → Y final = 910 - row * 20
+  #
+  # Pour un alignement parfait il faudrait : layout_y(row:0) + 286 = 910
+  #   → layout_y(row:0) devrait valoir exactement 624
+  #
+  # CORRECTIF PROPOSÉ :
+  # Utiliser la même approche absolue que render_line pour garantir l'alignement :
+  #   rect.y = 640 - row * 20 + 270 - 10
+  # Le -10 centre verticalement la bande (h=20) sur le texte (vertical_alignment_enum: 1 = centré)
+  #
   def render_current_line row,color
     rect = args.layout
       .rect(row: 0, col: 1, w: 16, h: 1).merge(**color)
@@ -177,6 +198,12 @@ class PatternPlayer
 
   end
 
+  # ANALYSE #20 — Positionnement vertical du texte des lignes
+  #
+  # Le texte utilise une position Y ABSOLUE : rect.y = 640 - row * 20 + 270
+  # C'est la référence fiable. Les bandes (render_current_line) devraient
+  # s'aligner sur cette même formule.
+  #
   def render_line pattern, num, row
     line = pattern.row_info num
     rect = args.layout.rect(row: row, col: 1)
