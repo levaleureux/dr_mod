@@ -1,0 +1,21 @@
+# Lefthook configuration
+# https://github.com/evilmartians/lefthook
+#
+# Les wrappers bin/*_quiet réduisent l'output de ~55K
+# à ~500 chars pour économiser les tokens Claude Code.
+#
+# dr_spec tourne dans DragonRuby (pas en CLI standard),
+# donc pas de hook de test ici.
+
+output:
+  - meta
+  - summary
+  - failure
+
+pre-commit:
+  parallel: true
+  commands:
+    rubocop:
+      run: bin/rubocop_quiet
+    reek:
+      run: bin/reek_quiet

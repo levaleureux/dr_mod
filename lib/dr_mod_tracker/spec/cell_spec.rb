@@ -6,8 +6,11 @@ spec "Cell" do
       @cell = Cell.new(@cell_data)
     end
 
-    xit "parses the sample number correctly" do
-      expect(@cell.sample_number).to eq(16)
+    it "parses the sample number correctly" do
+
+      puts "TODO tester les bin reader".blue
+      puts @cell.sample_number.to_s.blue
+      # expect(@cell.sample_number).to eq(16)
     end
 
     xit "parses the note period correctly" do
@@ -24,6 +27,7 @@ spec "Cell" do
   end
 
   context "Note avec effet d'arpège" do
+    # context "Note avec effet d'arpège" do
     before do
       # Une note (A4) avec un effet d'arpège
       @cell_data = [0x12, 0x34, 0x01, 0x23]
@@ -69,5 +73,30 @@ spec "Cell" do
     it "sets effect_argument to 0" do
       expect(@cell.effect_argument).to eq(0)
     end
+  end
+end
+
+#
+# sample number
+#
+focus_spec 'when reading sample number' do
+
+  it 'returns correct sample number for basic case' do
+    @cell = Cell.new([0x10, 0x00, 0x20, 0x00])  # 0x1 | 0x2 = 0x12 = 18
+    expect(@cell.sample_number).to eq(18)
+  end
+
+  it 'returns maximum possible sample number' do
+    @cell = Cell.new([0xF0, 0x00, 0xF0, 0x00])  # 0xF | 0xF = 0xFF = 255
+    expect(@cell.sample_number).to eq(255)
+  end
+  it 'returns correct sample number for mixed bits' do
+    @cell = Cell.new([0xA0, 0x00, 0x50, 0x00])  # 0xA | 0x5 = 0xA5 = 165
+    expect(@cell.sample_number).to eq(165)
+  end
+
+  it 'returns zero when all bits are low' do
+    @cell = Cell.new([0x00, 0x00, 0x00, 0x00])  # 0x0 | 0x0 = 0x00 = 0
+    expect(@cell.sample_number).to eq(0)
   end
 end

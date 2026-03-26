@@ -1,4 +1,5 @@
 # dr_mod
+
 Amiga mod loader and player for dragonruby
 
 ![main_screen](./readme_files/001_main_screen.png)
@@ -13,6 +14,10 @@ https://www.lim.di.unimi.it/IEEE/VROS/FAQ/CRAMIG2.HTM
 
 I curently can read patterns but I have issue with the sample frequency audio play.
 If you have any hint please open an issue.
+
+a nice vidéo to explain what it is
+
+https://www.youtube.com/watch?v=0_6eBiouooo&t=30s
 
 ## Additional links
 
@@ -71,6 +76,23 @@ Lib spec are in
 
 
 
+
+# Development tools
+
+DragonRuby is a standalone runtime and does not use Bundler gems at runtime.
+The `Gemfile` is exclusively for linting and static analysis during development.
+
+```bash
+bundle install
+lefthook install
+```
+
+This sets up pre-commit hooks that run:
+- **rubocop** — style and lint checks
+- **reek** — code smell detection (non-blocking)
+
+Both use quiet wrappers (`bin/*_quiet`) that condense output to save tokens
+when working with AI coding assistants.
 
 # Pull request
 
