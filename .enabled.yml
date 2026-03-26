@@ -511,7 +511,7 @@ Style/WhileUntilModifier:
   Enabled: true
 
 Layout/LineLength:
-  Max: 80
+  Max: 120
 
 
 # Supports --auto-correct

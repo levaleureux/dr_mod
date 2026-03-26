@@ -42,12 +42,15 @@ removed to make the module harder to rip.
   sample_length: {
     offset:  42,
     bytes:   2,
-    desc:    "Samplelength for sample 1.\nStored as number of words.\nMultiply by two to get real sample length in bytes."
+    desc:    "Samplelength for sample 1.\nStored as number of words.\n" \
+             "Multiply by two to get real sample length in bytes."
   },
   finetune: {
     offset:  44,
     bytes:   1,
-    desc:    "Lower four bits are the finetune value,\nstored as a signed four bit number.\nThe upper four bits are not used,\nand should be set to zero.\nValue:  Finetune:  \n0  0\n1  +1\n2  +2\n3  +3\n4  +4\n5  +5\n6  +6\n7  +7\n8  -8\n9  -7\nA  -6\nB  -5\nC  -4\nD  -3\nE  -2\nF  -1"
+    desc:    "Lower four bits are the finetune value,\n" \
+             "stored as a signed four bit number.\n" \
+             "The upper four bits are not used, and should be set to zero."
   },
   volume: {
     offset:  45,
@@ -57,12 +60,14 @@ removed to make the module harder to rip.
   repeat_point: {
     offset:  46,
     bytes:   2,
-    desc:    "Repeat point for sample 1.\nStored as number of words offset\nfrom start of sample.\nMultiply by two to get offset in bytes."
+    desc:    "Repeat point for sample 1.\nStored as number of words offset\n" \
+             "from start of sample.\nMultiply by two to get offset in bytes."
   },
   repeat_length: {
     offset:  48,
     bytes:   2,
-    desc:    "Repeat Length for sample 1.\nStored as number of words in loop.\nMultiply by two to get replen in bytes."
+    desc:    "Repeat Length for sample 1.\nStored as number of words in loop.\n" \
+             "Multiply by two to get replen in bytes."
   },
   # Song
   song_length: {
@@ -73,17 +78,22 @@ removed to make the module harder to rip.
   tracker_byte: {
     offset:  951,
     bytes:   1,
-    desc:    "Well... this little byte here is set to 127, so that old trackers will search through all patterns when loading. Noisetracker uses this byte for restart, but we don't."
+    desc:    "Well... this little byte here is set to 127, so that old trackers will search " \
+             "through all patterns when loading. Noisetracker uses this byte for restart."
   },
   song_positions: {
     offset:  952,
     bytes:   128,
-    desc:    "Song positions 0-127. Each hold a number from 0-63 that tells the tracker what pattern to play at that position."
+    desc:    "Song positions 0-127. Each hold a number from 0-63 " \
+             "that tells the tracker what pattern to play at that position."
   },
   format_signature: {
     offset:  1080,
     bytes:   4,
-    desc:    "The four letters 'M.K.' - This is something Mahoney & Kaktus inserted when they increased the number of samples from 15 to 31. If it's not there, the module/song uses 15 samples or the text has been removed to make the module harder to rip. Star trekker puts 'FLT4' or 'FLT8' there instead."
+    desc:    "The four letters 'M.K.' - This is something Mahoney & Kaktus inserted " \
+             "when they increased the number of samples from 15 to 31. If it's not there, " \
+             "the module/song uses 15 samples or the text has been removed to make the " \
+             "module harder to rip. Star trekker puts 'FLT4' or 'FLT8' there instead."
   },
   # Pattern
   pattern_data: {
@@ -93,7 +103,8 @@ removed to make the module harder to rip.
   },
   num_patterns: {
     offset:  "xxxx",
-    desc:    "Number of patterns stored is equal to the highest pattern number in the song position table (at offset 952-1079)."
+    desc:    "Number of patterns stored is equal to the highest pattern number " \
+             "in the song position table (at offset 952-1079)."
   },
   # Periodtable for Tuning 0, Normal
   # C-1 to B-1 : 856,808,762,720,678,640,604,570,538,508,480,453
