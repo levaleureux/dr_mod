@@ -35,9 +35,25 @@ dr_mod/
 # Lancer dr_mod (depuis la racine drgame/)
 ../../dragonruby-macos/dragonruby projects/dr_mod
 
-# Lancer les tests
+# Lancer les tests (mode dev — reste ouvert meme si tests echouent)
 ../../dragonruby-macos/dragonruby projects/dr_mod --eval app/tests.rb --no-tick
+
+# Lancer les tests (mode CI — exit code 1 si echec, pour lefthook/CI)
+../../dragonruby-macos/dragonruby projects/dr_mod --eval app/tests.rb --no-tick --exit-on-fail
 ```
+
+### DragonRuby et tests (dr_spec)
+
+DragonRuby execute les tests via `--eval app/tests.rb`. Ce n'est pas du ruby standard,
+c'est le runtime mRuby de DragonRuby qui execute le code.
+
+- `--no-tick` : quitte apres l'eval sans lancer la game loop
+- `--exit-on-fail` : flag custom de dr_spec (pas DragonRuby natif).
+  Fait `exit(1)` si des tests echouent. Indispensable pour CI/CD et lefthook.
+  Sans ce flag, DragonRuby retourne toujours 0 meme en cas d'echec.
+
+**Pour l'agent Claude : toujours utiliser le mode CI avec `--exit-on-fail`
+pour verifier les tests apres un changement.**
 
 ## Workflow
 
