@@ -8,11 +8,7 @@ class Scene::Title < Scene
   NAME = :title
 
   def initialize args
-    @x                = 100
-    @y                = 100
-    @color            = {r: 255, g: 0, b: 0}
-    args.state.action = false
-    proc_play         = Proc.new { start_game }
+    init_defaults args
     init_scene_elements
   end
 
@@ -22,6 +18,13 @@ class Scene::Title < Scene
   end
 
   private
+
+  def init_defaults args
+    @x                = 100
+    @y                = 100
+    @color            = {r: 255, g: 0, b: 0}
+    args.state.action = false
+  end
 
   def init_scene_elements
     init_dr_mod
@@ -41,11 +44,6 @@ class Scene::Title < Scene
   def switch_scene
     scene_quit
     args.state.next_scene = :sample
-  end
-
-  def start_game
-    scene_quit
-    args.state.next_scene = :level
   end
 
   def scene_quit
