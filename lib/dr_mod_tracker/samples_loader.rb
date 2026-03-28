@@ -26,11 +26,15 @@ class SamplesLoader
 
   def load_samples_data
     @samples.each_with_index do |sample, index|
-      log_sample_load index
-      offset = @song.samples_start_at + @cumulative_offset
-      sample.decode_data offset
-      @cumulative_offset += sample.length
+      load_single_sample sample, index
     end
+  end
+
+  def load_single_sample sample, index
+    log_sample_load index
+    offset = @song.samples_start_at + @cumulative_offset
+    sample.decode_data offset
+    @cumulative_offset += sample.length
   end
 
   private

@@ -51,21 +51,20 @@ class Scene::Sample < Scene
 
   def build_sample_info
     s = @sound.sample
-    info = [""]
-    info << "finetune:      #{s.finetune}      num:    #{s.num}"
-    info << "volume:        #{s.volume}     name:   #{s.name}"
-    info << "repeat_point:  #{s.repeat_point}      length: #{s.length}"
-    info << "repeat_length: #{s.repeat_length}"
-    info << data_summary
+    ["", *sample_properties(s), data_summary]
+  end
+
+  def sample_properties s
+    [ "finetune:      #{s.finetune}      num:    #{s.num}",
+      "volume:        #{s.volume}     name:   #{s.name}",
+      "repeat_point:  #{s.repeat_point}      length: #{s.length}",
+      "repeat_length: #{s.repeat_length}" ]
   end
 
   def data_summary
     data = @sound.sample.data[0, 20]
-    if data.empty?
-      "data: []"
-    else
-      "data: #{@sound.sample.data.size}  [#{data.join(',')}..."
-    end
+    return "data: []" if data.empty?
+    "data: #{@sound.sample.data.size}  [#{data.join(',')}..."
   end
 
   def draw_rate_label
