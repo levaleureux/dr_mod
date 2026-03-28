@@ -2,13 +2,13 @@
 # PatternPlayer: plays MOD patterns and handles navigation.
 # Rendering is split into PatternDraw (grid) and
 # PatternSideBar (title, channels, song positions).
+# Audio playback is in PatternAudio module.
 #
 class PatternPlayer
   include PatternDraw
   include PatternSideBar
+  include PatternAudio
   attr_gtk
-
-  WAV_SAMPLES = %w(x_01_Kick A3 B3 C3 E3 jazz-2 jazz-3 kick-1 snare-1.wav F3 G3 treble-1).freeze
 
   def initialize args, mod, channels
     @args     = args
@@ -102,22 +102,5 @@ class PatternPlayer
     max = 11 # TODO use @mod.song.length
     @current_pattern = 0 if @current_pattern > max
     @current_pattern = max if @current_pattern < 0
-  end
-
-  def play_row_sounds
-    @channels.count.times do |num|
-      play_channel_sound num
-    end
-  end
-
-  def play_channel_sound num
-    cell = @pattern.rows[@current_line][num]
-    return if cell.note_period == 0
-    play_wav_sound "channel_#{num}".to_sym, WAV_SAMPLES[num]
-  end
-
-  def play_wav_sound channel, name
-    return unless @with_sound
-    args.audio[channel] = { input: "sounds/#{name}.wav", gain: 0.05 }
   end
 end

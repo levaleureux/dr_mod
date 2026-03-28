@@ -3,12 +3,20 @@
 # Handles play/stop, sample selection, rate control.
 # Waveform rendering is in SfxDraw module.
 #
+# Amiga PAL frequency: 7,093,789.2 Hz
+# Formula: hz = AMIGA_PAL_FREQ / (period * 2)
+# C-3 (period 214) = 16575 Hz — default playback note
+#
 # see #23 for logging system
+# see #32 for virtual keyboard (note selection)
 #
 class SfxPlayer
   include SfxDraw
   attr_gtk
   attr_accessor :sample_count, :duration, :sample_rate
+
+  AMIGA_PAL_FREQ = 7_093_789.2
+  C3_PERIOD = 214
 
   def initialize args, mod, channel = :channel_0
     init_audio args, mod, channel
@@ -16,7 +24,6 @@ class SfxPlayer
   end
 
   def tick
-    check_duration
     draw_rate_label
     tick_draw args
   end
@@ -48,8 +55,10 @@ class SfxPlayer
   end
 
   def start
+    stop
+    sound = build_one_shot @samples[@current_sound]
     args.audio[@channel] = {
-      input: [1, custom_rate, @generate_sounds[@current_sound]]
+      input: [1, custom_rate, sound]
     }
   end
 
@@ -58,17 +67,13 @@ class SfxPlayer
     @sample_count        = 0
   end
 
+  # Playback rate for current note (C-3 default, see #32)
   def custom_rate
-    if sample.finetune == 0
-      sample.length + 1
-    else
-      (@sample_rate / (2 * sample.finetune + 1)).to_i
-    end
+    (AMIGA_PAL_FREQ / (C3_PERIOD * 2)).to_i
   end
 
   def custom_duration
-    rate = @sample_rate / custom_rate
-    rate == 1 ? 60 : rate * 5
+    sample.length / custom_rate * 60
   end
 
   private
@@ -100,5 +105,11 @@ class SfxPlayer
     @generate_sounds = @samples.map do |s|
       lambda { s.normalized_data }
     end
+  end
+
+  # One-shot lambda: plays sample data once, then silence.
+  def build_one_shot s
+    played = false
+    lambda { played ? [] : (played = true; s.normalized_data) }
   end
 end
