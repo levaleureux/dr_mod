@@ -38,9 +38,10 @@ class Sample
 
   # it's an amiga word
   #
+  # Length is stored as words (2 bytes). Multiply by 2 for bytes.
   def set_length
     offset  = offset_for :sample_length
-    @length = decode_amiga_word @mod_data, offset
+    @length = decode_amiga_word(@mod_data, offset) * 2
   end
 
   def set_finetune
