@@ -88,6 +88,7 @@ L'objectif est d'avoir une base saine avant d'entamer le refactoring Sandi Metz 
 - **DragonRuby** : classe `Game` avec `attr_gtk`, `SceneManager` pour les scenes
 - **Nommage** : snake_case
 - **Style de code** : voir `doc/code_style.md` — anti-parentheses, conventions mRuby
+- **Sandi Metz rules** : max 5 lignes par methode, max 100 lignes par classe. Non negociable.
 - **Tests** : syntaxe dr_spec (`spec`, `it`, `context`, `before`, `expect(...).to`)
 - **Git** : identity `levaleureux <133817850+levaleureux@users.noreply.github.com>`
 - **Remote** : `git@github-valeureux.com:levaleureux/dr_mod.git`

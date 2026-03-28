@@ -6,6 +6,8 @@ require "app/scenes/title.rb"
 require "app/scenes/sample.rb"
 require "app/component/sfx_player/sfx_draw.rb"
 require "app/component/sfx_player.rb"
+require "app/component/pattern_player/pattern_draw.rb"
+require "app/component/pattern_player/pattern_side_bar.rb"
 require "app/component/pattern_player.rb"
 require "app/component/game.rb"
 
