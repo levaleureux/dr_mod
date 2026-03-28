@@ -26,9 +26,7 @@ class SamplesLoader
 
   def load_samples_data
     @samples.each_with_index do |sample, index|
-      puts "load sample #{index}"
-      puts "samples_start_at #{@song.samples_start_at}"
-      puts "cumulative_offset #{@cumulative_offset}"
+      log_sample_load index
       offset = @song.samples_start_at + @cumulative_offset
       sample.decode_data offset
       @cumulative_offset += sample.length
@@ -36,6 +34,12 @@ class SamplesLoader
   end
 
   private
+
+  def log_sample_load index
+    puts "load sample #{index}"
+    puts "samples_start_at #{@song.samples_start_at}"
+    puts "cumulative_offset #{@cumulative_offset}"
+  end
 
   def puts_sample_info
     @samples.each do |sample|
