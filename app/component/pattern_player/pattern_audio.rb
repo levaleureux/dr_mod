@@ -19,12 +19,15 @@ module PatternAudio
   def play_channel_sound num
     cell = @pattern.rows[@current_line][num]
     return if cell.note_period == 0
+    return if cell.sample_number == 0
     return unless @with_sound
     play_mod_sample num, cell
   end
 
+  # ProTracker samples are 1-indexed (0 = no instrument).
+  # Ruby array is 0-indexed, so subtract 1.
   def play_mod_sample num, cell
-    s = @mod.samples[cell.sample_number]
+    s = @mod.samples[cell.sample_number - 1]
     rate = amiga_rate cell.note_period
     sound = one_shot_lambda s
     args.audio["channel_#{num}".to_sym] = { input: [1, rate, sound] }
