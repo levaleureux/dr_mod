@@ -1,46 +1,39 @@
 ---
+# Reek configuration for dr_mod
+# See doc/reek_choices.md for rationale behind each choice.
 
 ### Generic smell configuration
 
 detectors:
-  # You can disable smells completely
   IrresponsibleModule:
     enabled: false
-      #WritableAttribute:
-      #enabled: false
-  #FeatureEnvy:
-  #enabled: true
-  # You can use filters to silence Reek warnings.
-  # Either because you simply disagree with Reek (we are not the police) or
-  # because you want to fix this at a later point in time.
+
+  # Disabled: redundant with rubocop Metrics/ClassLength (max 100)
+  # and Sandi Metz 5-line methods rule.
+  TooManyMethods:
+    enabled: false
+
+  # Disabled: attr_gtk and attr_reader/attr_accessor are standard
+  # DragonRuby patterns for component communication.
+  Attribute:
+    enabled: false
+
+  # Adjusted: game components need more ivars than typical classes.
+  TooManyInstanceVariables:
+    max_instance_variables: 8
+
   NestedIterators:
     exclude:
-      - "MyWorker#self.class_method" # should be refactored
-      - "AnotherWorker#instance_method" # should be refactored as well
+      - "MyWorker#self.class_method"
+      - "AnotherWorker#instance_method"
 
-  # A lot of smells allow fine tuning their configuration. You can look up all available options
-  # in the corresponding smell documentation in /docs. In most cases you probably can just go
-  # with the defaults as documented in defaults.reek.yml.
   DataClump:
     max_copies:      3
     min_clump_size:  3
 
-      #exclude:
-      #  - WritableAttribute
-
 ### Directory specific configuration
 
-# You can configure smells on a per-directory base.
-# E.g. the classic Rails case: controllers smell of NestedIterators (see /docs/Nested-Iterators.md) and
-# helpers smell of UtilityFunction (see docs/Utility-Function.md)
-#
-# Note that we only allow configuration on a directory level, not a file level,
-# so all paths have to point to directories.
-# A Dir.glob pattern can be used.
 directories:
-  #"web_app/app/controllers":
-  #  NestedIterators:
-  #    enabled: false
   "spec":
     UtilityFunction:
       enabled: false
@@ -49,13 +42,19 @@ directories:
     InstanceVariableAssumption:
       enabled: false
 
+  # DragonRuby's attr_gtk injects ivars at runtime.
+  # Extracted modules rely on parent class ivars by design.
+  "app":
+    InstanceVariableAssumption:
+      enabled: false
+
 ### Excluding directories
 
-# Directories and files below will not be scanned at all
 exclude_paths:
   - lib/legacy
   - lib/rake/legacy_tasks
   - lib/smelly.rb
+  - lib/dr_mod_tracker/misc  # scratchpad files, see #16
   - db/migrate
   - config
   # - spec
