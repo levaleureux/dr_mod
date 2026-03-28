@@ -64,11 +64,13 @@ module PatternDraw
     adjust_current_line rect, row
   end
 
+  # Same Y formula as text (910 - row*20), offset -10
+  # to center the 20px band on the text line.
   def adjust_current_line rect, row
     rect.w += 25
     rect.x -= 3
     rect.h = 20
-    rect.y += 640 - row * 20 - 354
+    rect.y = 640 - row * 20 + 270 - 10
     rect
   end
 
