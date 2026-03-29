@@ -2,6 +2,7 @@ require 'lib/dr_mod_tracker/dr_mod.rb'
 require "app/scenes/concern.rb"
 require "app/scene.rb"
 require "app/scenes/scene_manager.rb"
+require "app/scenes/game.rb"
 require "app/scenes/title.rb"
 require "app/scenes/sample.rb"
 require "app/component/sfx_player/sfx_draw.rb"
