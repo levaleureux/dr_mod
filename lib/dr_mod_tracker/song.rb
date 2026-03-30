@@ -29,8 +29,9 @@ class Song
     1024 # pattern_lines 64 * line_size 16
   end
 
+  # ProTracker 1.1B: 31 samples (numbered 1-31 in spec)
   def samples_count
-    32
+    31
   end
 
   #

@@ -1,7 +1,17 @@
 #
-# Load
+# Loads sample headers and audio data from a MOD file.
+#
+# ProTracker stores 31 sample headers (bytes 20-949),
+# numbered 1-31 in the spec. We store them in a Ruby
+# array indexed 0-30.
+#
+# When patterns reference sample N, use @samples[N - 1].
+# Sample 0 in patterns means "no instrument" (see #38).
 #
 class SamplesLoader
+  # ProTracker has exactly 31 sample slots.
+  SAMPLE_COUNT = 31
+
   attr_reader :samples
 
   def initialize mod_data, song
@@ -18,10 +28,9 @@ class SamplesLoader
   end
 
   def load_samples
-    32.times do |sample_num|
+    SAMPLE_COUNT.times do |sample_num|
       @samples.push Sample.new sample_num, @mod_data
     end
-    #puts_sample_info
   end
 
   def load_samples_data
