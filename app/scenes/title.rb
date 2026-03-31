@@ -14,6 +14,7 @@ class Scene::Title < Scene
 
   def tick
     switch_scene if args.inputs.keyboard.key_down.s
+    reload_mod if args.inputs.keyboard.key_down.f5
     tick_current_scene
   end
 
@@ -44,6 +45,14 @@ class Scene::Title < Scene
   def switch_scene
     scene_quit
     args.state.next_scene = :sample
+  end
+
+  # Reload MOD file and recreate all players.
+  # Useful after code changes that affect parsing.
+  def reload_mod
+    @channels = []
+    init_scene_elements
+    @post_init = false
   end
 
   def scene_quit
