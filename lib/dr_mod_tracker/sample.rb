@@ -44,11 +44,14 @@ class Sample
     @length = decode_amiga_word(@mod_data, offset) * 2
   end
 
+  # Finetune is a signed 4-bit value (-8 to +7) stored
+  # in the lower nibble of the byte. Upper nibble unused.
+  # Each step shifts pitch by 1/8 of a semitone.
   def set_finetune
     offset = offset_for :finetune
-    size      = T_SPEC[:finetune][:bytes]
-    @finetune = @mod_data[offset, size].unpack("C").first
-    #@finetune = set_attr :finetune
+    size   = T_SPEC[:finetune][:bytes]
+    raw    = @mod_data[offset, size].unpack("C").first & 0x0F
+    @finetune = raw > 7 ? raw - 16 : raw
   end
 
   def set_volume

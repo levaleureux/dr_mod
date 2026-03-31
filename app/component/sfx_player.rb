@@ -65,9 +65,15 @@ class SfxPlayer
     @sample_count        = 0
   end
 
-  # Playback rate for current note (C-3 default, see #32)
+  # Playback rate for current note (C-3 default, see #32).
+  # Applies sample finetune: ±1/8 semitone per step.
   def custom_rate
-    (AMIGA_PAL_FREQ / (C3_PERIOD * 2)).to_i
+    base = AMIGA_PAL_FREQ / (C3_PERIOD * 2)
+    (base * finetune_factor).to_i
+  end
+
+  def finetune_factor
+    2 ** (sample.finetune / 96.0)
   end
 
   def custom_duration

@@ -28,7 +28,7 @@ module PatternAudio
   # Ruby array is 0-indexed, so subtract 1.
   def play_mod_sample num, cell
     s = @mod.samples[cell.sample_number - 1]
-    rate = amiga_rate cell.note_period
+    rate = amiga_rate cell.note_period, s.finetune
     sound = one_shot_lambda s
     play_on_channel num, rate, sound, s
   end
@@ -41,8 +41,17 @@ module PatternAudio
     }
   end
 
-  def amiga_rate period
-    (SfxPlayer::AMIGA_PAL_FREQ / (period * 2)).to_i
+  # Convert Amiga period to playback rate in Hz.
+  # Finetune adjusts pitch by ±1/8 semitone per step.
+  # Formula: hz = PAL_FREQ / (period * 2) * 2^(finetune/96)
+  # 96 = 12 semitones × 8 finetune steps per semitone.
+  def amiga_rate period, finetune = 0
+    base = SfxPlayer::AMIGA_PAL_FREQ / (period * 2)
+    (base * finetune_factor(finetune)).to_i
+  end
+
+  def finetune_factor finetune
+    2 ** (finetune / 96.0)
   end
 
   def one_shot_lambda s
