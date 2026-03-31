@@ -1,102 +1,119 @@
 # dr_mod
 
-Amiga mod loader and player for dragonruby
+Amiga MOD file loader and player for DragonRuby Game Toolkit.
+
+Parses ProTracker 1.1B `.mod` files, displays an interactive tracker UI,
+and plays samples with waveform visualization.
 
 ![main_screen](./readme_files/001_main_screen.png)
 
-# Base documents
+## Features
 
-This MOD player is base on those 2 document
+- ProTracker MOD file parsing (31 samples, 4 channels)
+- Interactive tracker view with colored beat lines
+- Sample view with waveform visualization
+- Amiga-accurate frequency calculation (PAL clock)
+- Finetune and per-sample volume support
+- FR keyboard layout for note input (EN and BEPO planned)
 
-https://ftp.modland.com/pub/documents/format_documentation/Protracker%20effects%20(MODFIL12.TXT)%20(.mod).txt
+## Getting Started
 
-https://www.lim.di.unimi.it/IEEE/VROS/FAQ/CRAMIG2.HTM
+dr_mod requires [DragonRuby Game Toolkit](https://dragonruby.org/).
 
-I curently can read patterns but I have issue with the sample frequency audio play.
-If you have any hint please open an issue.
-
-a nice vidéo to explain what it is
-
-https://www.youtube.com/watch?v=0_6eBiouooo&t=30s
-
-## Additional links
-
-https://github.com/rombankzero/pocketmod/blob/master/pocketmod.h
-
-https://github.com/electronoora/webaudio-mod-player/blob/master/js/pt.js
-
-# How to use it.
-
-For now there is 2 screen
-
-1. main   screen, with the traker
-2. sample screen, with the sample visualisation
-
-## key
-
-on main screen you can press
-1. 'space' to play
-2. 's' to go to the sample screen
-3. 'r' to reset
-
-on the sample screen you can press
-
-1. 'c' to go back to tracker screen
-2. 'todo' to play sample
-3. 'todo' on play mode press a note key to play it
-4. 'todo' to switch notation system, English and frensh
-
-# Why I implement more than one notation system.
-
-1. I'm french so I learn music with the french system (make sence).
-2. It's more easy to debug something that is more easy to read and understand
-   for you.
-3. I belive the more you train you brain with cultural difference, the bettre
-   you understand what difference and history mean, and become a more savy and
-   good citizen :) :) (don't fight make people smart :) )
+```bash
+# Launch the game
+dragonruby path/to/dr_mod
 
 # Run the tests
-
-Test are write with dr_spec
-
-you can run them by typing
-
-```
- dragonruby . --eval app/tests.rb --no-tick
- # --spec-tags traker, sampler
- # tag are not used now
+dragonruby path/to/dr_mod --eval app/tests.rb --no-tick --exit-on-fail
 ```
 
-## Adding spec
+## Controls
 
-Lib spec are in
-```
-  lib/dr_mod_tracker/spec/*_spec.rb
-```
+### Tracker view (main screen)
 
+| Key | Action |
+|-----|--------|
+| Space | Play / Pause |
+| M | Toggle sound on/off |
+| Up/Down | Navigate lines |
+| Left/Right | Previous/Next pattern |
+| S | Switch to Sample view |
+| R | Reset game |
 
+### Sample view
 
+| Key | Action |
+|-----|--------|
+| I | Play sample |
+| U | Stop |
+| J/K | Next/Previous sample |
+| O/P | Sample rate up/down |
+| D R M F S L T | Play note (Do Re Mi Fa Sol La Si) |
+| C | Back to Tracker view |
 
-# Development tools
+## Git Flow
 
-DragonRuby is a standalone runtime and does not use Bundler gems at runtime.
-The `Gemfile` is exclusively for linting and static analysis during development.
+| Branch | Role |
+|--------|------|
+| `master` | Production stable. Never commit directly. |
+| `develop` | Integration branch. Features are merged here. |
+| `feature/*` | Development branches, created from `develop`. |
+
+## Development Setup
+
+DragonRuby is a standalone runtime — the `Gemfile` is for linting only.
 
 ```bash
 bundle install
 lefthook install
 ```
 
-This sets up pre-commit hooks that run:
-- **rubocop** — style and lint checks
+Pre-commit hooks run:
+- **rubocop** — style and lint (Sandi Metz rules: 5 lines/method, 100 lines/class)
 - **reek** — code smell detection (non-blocking)
+- **dr_spec** — tests via DragonRuby runtime
 
-Both use quiet wrappers (`bin/*_quiet`) that condense output to save tokens
-when working with AI coding assistants.
+All use quiet wrappers (`bin/*_quiet`) that condense output for AI coding assistants.
 
-# Pull request
+## Running Tests
 
-Pull request are welcome.
-Test must pass without regression.
+Tests use [dr_spec](https://github.com/levaleureux/dr_spec), a homemade
+RSpec-like framework for DragonRuby's mRuby runtime.
 
-Any design discussion or documentation are welcome too.
+```bash
+# Dev mode (stays open on failure)
+dragonruby path/to/dr_mod --eval app/tests.rb --no-tick
+
+# CI mode (exit code 1 on failure)
+dragonruby path/to/dr_mod --eval app/tests.rb --no-tick --exit-on-fail
+```
+
+Lib specs are in `lib/dr_mod_tracker/spec/`, app specs in `spec/`.
+
+## Reference Documents
+
+This MOD player is based on:
+
+- [ProTracker effects (MODFIL12.TXT)](https://ftp.modland.com/pub/documents/format_documentation/Protracker%20effects%20(MODFIL12.TXT)%20(.mod).txt)
+- [Amiga MOD format (CRAMIG2)](https://www.lim.di.unimi.it/IEEE/VROS/FAQ/CRAMIG2.HTM)
+- [Visual explanation (YouTube)](https://www.youtube.com/watch?v=0_6eBiouooo&t=30s)
+
+### Other implementations
+
+- [pocketmod (C)](https://github.com/rombankzero/pocketmod/blob/master/pocketmod.h)
+- [webaudio-mod-player (JS)](https://github.com/electronoora/webaudio-mod-player/blob/master/js/pt.js)
+
+## Why Multiple Notation Systems?
+
+1. I'm French, so I learned music with the French system (Do Re Mi Fa Sol La Si).
+2. It's easier to debug when the notation matches your mental model.
+3. Cultural diversity in software makes us better developers and citizens.
+
+## Contributing
+
+Pull requests are welcome. Tests must pass without regression.
+Design discussions and documentation contributions are welcome too.
+
+See `doc/code_style.md` for coding conventions and `doc/reek_choices.md`
+for linter configuration rationale.
