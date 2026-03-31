@@ -30,7 +30,15 @@ module PatternAudio
     s = @mod.samples[cell.sample_number - 1]
     rate = amiga_rate cell.note_period
     sound = one_shot_lambda s
-    args.audio["channel_#{num}".to_sym] = { input: [1, rate, sound] }
+    play_on_channel num, rate, sound, s
+  end
+
+  # Volume 0-64 mapped to gain 0.0-1.0
+  def play_on_channel num, rate, sound, s
+    args.audio["channel_#{num}".to_sym] = {
+      input: [1, rate, sound],
+      gain: s.volume / 64.0
+    }
   end
 
   def amiga_rate period

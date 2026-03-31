@@ -57,9 +57,7 @@ class SfxPlayer
   def start
     stop
     sound = build_one_shot @samples[@current_sound]
-    args.audio[@channel] = {
-      input: [1, custom_rate, sound]
-    }
+    play_on_channel @channel, sound, sample
   end
 
   def stop
@@ -94,6 +92,14 @@ class SfxPlayer
 
   def init_sample_rate
     @sample_rate = (70937892 / (856 * 2)).to_i
+  end
+
+  # Volume 0-64 mapped to gain 0.0-1.0
+  def play_on_channel channel, sound, s
+    args.audio[channel] = {
+      input: [1, custom_rate, sound],
+      gain: s.volume / 64.0
+    }
   end
 
   def check_duration
