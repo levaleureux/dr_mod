@@ -1,6 +1,6 @@
 #
 # Side bar UI for PatternPlayer.
-# Displays title, channel info, and song position list.
+# Displays title, shortcuts, channel info, and song position list.
 #
 module PatternSideBar
 
@@ -14,9 +14,15 @@ module PatternSideBar
 
   def draw_title
     draw_label(-8, -3, "GoodEnoughTraker", 16)
-    draw_label(-7, -2, "« 枯れ���技術の水平思考 » ", 1)
     draw_label(-1, 18, "pattern box", 8)
-    draw_label(-9, 18, "Channels space : press C", 1)
+    draw_shortcuts
+  end
+
+  def draw_shortcuts
+    loop_txt = @loop_pattern ? "LOOP ON" : "loop off"
+    snd_txt  = @with_sound ? "SND ON" : "snd off"
+    draw_label(-9, 18, "SPC:play M:#{snd_txt} L:#{loop_txt}", 1)
+    draw_label(-10, 18, "S:sample F5:reload", 1)
   end
 
   def draw_channel_info
