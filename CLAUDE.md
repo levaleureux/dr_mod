@@ -106,6 +106,7 @@ L'objectif est d'avoir une base saine avant d'entamer le refactoring Sandi Metz 
 - **Style de code** : voir `doc/code_style.md` — anti-parentheses, conventions mRuby
 - **Sandi Metz rules** : max 5 lignes par methode, max 100 lignes par classe. Non negociable.
 - **Tests** : syntaxe dr_spec (`spec`, `it`, `context`, `before`, `expect(...).to`)
+- **Architecture** : voir `doc/architecture.md` — diagrammes Mermaid, data flow, modules. **A mettre a jour** quand on ajoute/modifie des classes ou modules.
 - **Git** : identity `levaleureux <133817850+levaleureux@users.noreply.github.com>`
 - **Remote** : `git@github-valeureux.com:levaleureux/dr_mod.git`
 
