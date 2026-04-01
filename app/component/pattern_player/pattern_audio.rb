@@ -17,11 +17,15 @@ module PatternAudio
   end
 
   def play_channel_sound num
-    cell = @pattern.rows[@current_line][num]
-    return if cell.note_period == 0
-    return if cell.sample_number == 0
+    return if @muted_channels[num]
     return unless @with_sound
+    cell = @pattern.rows[@current_line][num]
+    return if skip_cell? cell
     play_mod_sample num, cell
+  end
+
+  def skip_cell? cell
+    cell.note_period == 0 || cell.sample_number == 0
   end
 
   # ProTracker samples are 1-indexed (0 = no instrument).

@@ -51,8 +51,9 @@ class PatternPlayer
   end
 
   def init_ui
-    @color_tonic   = { r: 208, g: 130, b: 130 }
-    @played_sounds = ["", "", "", ""]
+    @color_tonic     = { r: 208, g: 130, b: 130 }
+    @played_sounds   = ["", "", "", ""]
+    @muted_channels  = [false, false, false, false]
   end
 
   def handle_input
@@ -64,6 +65,22 @@ class PatternPlayer
     @with_sound = !@with_sound if args.inputs.keyboard.key_down.m
     @playing = !@playing if args.inputs.keyboard.key_down.space
     @loop_pattern = !@loop_pattern if args.inputs.keyboard.key_down.l
+    toggle_channels
+  end
+
+  # Keys 1-4 mute/unmute individual channels.
+  def toggle_channels
+    4.times do |i|
+      toggle_channel i if channel_key_down?(i)
+    end
+  end
+
+  def channel_key_down? i
+    args.inputs.keyboard.key_down.send("#{i + 1}")
+  end
+
+  def toggle_channel i
+    @muted_channels[i] = !@muted_channels[i]
   end
 
   def handle_navigation_keys
