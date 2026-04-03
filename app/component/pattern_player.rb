@@ -70,17 +70,17 @@ class PatternPlayer
 
   # Keys 1-4 mute/unmute individual channels.
   def toggle_channels
-    4.times do |i|
-      toggle_channel i if channel_key_down?(i)
+    4.times do |ch|
+      toggle_channel ch if channel_key_down?(ch)
     end
   end
 
-  def channel_key_down? i
-    args.inputs.keyboard.key_down.send("#{i + 1}")
+  def channel_key_down? ch
+    args.inputs.keyboard.key_down.send("#{ch + 1}")
   end
 
-  def toggle_channel i
-    @muted_channels[i] = !@muted_channels[i]
+  def toggle_channel ch
+    @muted_channels[ch] = !@muted_channels[ch]
   end
 
   def handle_navigation_keys

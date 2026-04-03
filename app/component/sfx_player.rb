@@ -101,10 +101,10 @@ class SfxPlayer
   end
 
   # Volume 0-64 mapped to gain 0.0-1.0
-  def play_on_channel channel, sound, s
+  def play_on_channel channel, sound, smp
     args.audio[channel] = {
       input: [1, custom_rate, sound],
-      gain: s.volume / 64.0
+      gain: smp.volume / 64.0
     }
   end
 
@@ -114,14 +114,14 @@ class SfxPlayer
   end
 
   def make_procs
-    @generate_sounds = @samples.map do |s|
-      lambda { s.normalized_data }
+    @generate_sounds = @samples.map do |smp|
+      lambda { smp.normalized_data }
     end
   end
 
   # One-shot lambda: plays sample data once, then silence.
-  def build_one_shot s
+  def build_one_shot smp
     played = false
-    lambda { played ? [] : (played = true; s.normalized_data) }
+    lambda { played ? [] : (played = true; smp.normalized_data) }
   end
 end

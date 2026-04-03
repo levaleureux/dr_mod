@@ -39,9 +39,9 @@ module PatternDraw
   end
 
   def bg_col_rect col, x_offset
-    c = 200
+    grey = 200
     rect = args.layout.rect(row: 0, col: col, w: 4, h: 1)
-      .merge(r: c, g: c, b: c)
+      .merge(r: grey, g: grey, b: grey)
     adjust_bg_col rect, x_offset
   end
 

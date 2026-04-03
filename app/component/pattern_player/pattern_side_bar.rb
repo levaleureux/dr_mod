@@ -26,8 +26,8 @@ module PatternSideBar
   end
 
   def channels_txt
-    @muted_channels.each_with_index.map do |muted, i|
-      muted ? "." : (i + 1).to_s
+    @muted_channels.each_with_index.map do |muted, ch|
+      muted ? "." : (ch + 1).to_s
     end.join
   end
 

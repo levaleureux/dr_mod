@@ -10,7 +10,7 @@ class Scene::Sample < Scene
   attr_gtk
   NAME = :sample
 
-  def initialize args
+  def initialize _args
   end
 
   def tick
@@ -50,15 +50,15 @@ class Scene::Sample < Scene
   end
 
   def build_sample_info
-    s = @sound.sample
-    ["", *sample_properties(s), data_summary]
+    smp = @sound.sample
+    ["", *sample_properties(smp), data_summary]
   end
 
-  def sample_properties s
-    [ "finetune:      #{s.finetune}      num:    #{s.num}",
-      "volume:        #{s.volume}     name:   #{s.name}",
-      "repeat_point:  #{s.repeat_point}      length: #{s.length}",
-      "repeat_length: #{s.repeat_length}" ]
+  def sample_properties smp
+    [ "finetune:      #{smp.finetune}      num:    #{smp.num}",
+      "volume:        #{smp.volume}     name:   #{smp.name}",
+      "repeat_point:  #{smp.repeat_point}      length: #{smp.length}",
+      "repeat_length: #{smp.repeat_length}" ]
   end
 
   def data_summary

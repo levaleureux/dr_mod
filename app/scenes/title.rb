@@ -21,8 +21,8 @@ class Scene::Title < Scene
   private
 
   def init_defaults args
-    @x                = 100
-    @y                = 100
+    @pos_x            = 100
+    @pos_y            = 100
     @color            = {r: 255, g: 0, b: 0}
     args.state.action = false
   end

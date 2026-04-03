@@ -21,33 +21,33 @@ module SfxDraw
   end
 
   def draw_waveform args, wave_data
-    wf = args.render_target(:waveform)
-    wf.background_color = [100, 100, 100]
-    draw_wave_segments wf, wave_data
+    target = args.render_target(:waveform)
+    target.background_color = [100, 100, 100]
+    draw_wave_segments target, wave_data
   end
 
   # Draw each segment of the waveform.
-  def draw_wave_segments wf, wave_data
-    compute_wf_dimensions wf, wave_data
-    wave_data.each_cons(2).with_index do |(y1, y2), i|
-      wf.lines << wave_line(y1, y2, i)
+  def draw_wave_segments target, wave_data
+    compute_wf_dimensions target, wave_data
+    wave_data.each_cons(2).with_index do |(from_val, to_val), index|
+      target.lines << wave_line(from_val, to_val, index)
     end
   end
 
   # Compute waveform geometry dimensions.
   # Stored as ivars to avoid passing them to wave_line.
-  def compute_wf_dimensions wf, wave_data
-    @wf_step      = wf.width / (wave_data.length - 1)
-    @wf_center_y  = wf.height / 1.5
-    @wf_amplitude = wf.height / 6
+  def compute_wf_dimensions target, wave_data
+    @wf_step      = target.width / (wave_data.length - 1)
+    @wf_center_y  = target.height / 1.5
+    @wf_amplitude = target.height / 6
   end
 
   # Build a single waveform line segment [x1, y1, x2, y2, r, g, b].
   # Converts normalized sample values (0..1) to pixel coordinates
   # centered on @wf_center_y with @wf_amplitude scaling.
-  def wave_line y1, y2, i
-    [ @wf_step * i, wf_y(y1),
-      @wf_step * (i + 1), wf_y(y2),
+  def wave_line from_val, to_val, index
+    [ @wf_step * index, wf_y(from_val),
+      @wf_step * (index + 1), wf_y(to_val),
       255, 255, 0 ]
   end
 
