@@ -62,9 +62,10 @@ class PatternPlayer
   end
 
   def handle_toggle_keys
-    @with_sound = !@with_sound if args.inputs.keyboard.key_down.m
-    @playing = !@playing if args.inputs.keyboard.key_down.space
-    @loop_pattern = !@loop_pattern if args.inputs.keyboard.key_down.l
+    keys = args.inputs.keyboard.key_down
+    @with_sound = !@with_sound if keys.m
+    @playing = !@playing if keys.space
+    @loop_pattern = !@loop_pattern if keys.l
     toggle_channels
   end
 
@@ -76,7 +77,8 @@ class PatternPlayer
   end
 
   def channel_key_down? ch
-    args.inputs.keyboard.key_down.send("#{ch + 1}")
+    keys = args.inputs.keyboard.key_down
+    keys.send("#{ch + 1}")
   end
 
   def toggle_channel ch
@@ -84,10 +86,11 @@ class PatternPlayer
   end
 
   def handle_navigation_keys
-    @current_line -= 1 if args.inputs.keyboard.key_down.up
-    @current_line += 1 if args.inputs.keyboard.key_down.down
-    @current_pattern -= 1 if args.inputs.keyboard.key_down.left
-    @current_pattern += 1 if args.inputs.keyboard.key_down.right
+    keys = args.inputs.keyboard.key_down
+    @current_line -= 1 if keys.up
+    @current_line += 1 if keys.down
+    @current_pattern -= 1 if keys.left
+    @current_pattern += 1 if keys.right
   end
 
   def advance_if_playing

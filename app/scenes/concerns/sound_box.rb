@@ -18,23 +18,24 @@ module Concern::SoundBox
   private
 
   def handle_playback_keys
-    @sound.stop  if args.inputs.keyboard.key_down.u
-    @sound.start if args.inputs.keyboard.key_down.i
+    keys = args.inputs.keyboard.key_down
+    @sound.stop  if keys.u
+    @sound.start if keys.i
   end
 
   def handle_navigation_keys
-    @sound.select_down if args.inputs.keyboard.key_down.k
-    @sound.select_up   if args.inputs.keyboard.key_down.j
-    @sound.rate_down   if args.inputs.keyboard.key_down.p
-    @sound.rate_up     if args.inputs.keyboard.key_down.o
+    keys = args.inputs.keyboard.key_down
+    @sound.select_down if keys.k
+    @sound.select_up   if keys.j
+    @sound.rate_down   if keys.p
+    @sound.rate_up     if keys.o
   end
 
   # FR keyboard layout for octave keys (see #22 for other layouts)
   def octave_key_fr
+    keys = args.inputs.keyboard.key_down
     notes_fr.each do |key, note|
-      if args.inputs.keyboard.key_down.method(key).call
-        @note_name = note.upcase
-      end
+      @note_name = note.upcase if keys.method(key).call
     end
   end
 
@@ -46,10 +47,9 @@ module Concern::SoundBox
 
   # EN keyboard layout — not yet wired, see #22
   def octave_key_en
+    keys = args.inputs.keyboard.key_down
     notes_en.each do |note|
-      if args.inputs.keyboard.key_down.method(note).call
-        @note_name = note.upcase
-      end
+      @note_name = note.upcase if keys.method(note).call
     end
   end
 

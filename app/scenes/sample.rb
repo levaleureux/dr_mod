@@ -14,11 +14,16 @@ class Scene::Sample < Scene
   end
 
   def tick
-    switch_space if args.inputs.keyboard.key_down.c
-    activate_scene unless args.state.action
+    handle_keys
     @sound = args.state.current_samples
     show_text
     sound_section
+  end
+
+  def handle_keys
+    keys = args.inputs.keyboard.key_down
+    switch_space if keys.c
+    activate_scene unless args.state.action
   end
 
   def switch_space

@@ -13,8 +13,9 @@ class Scene::Title < Scene
   end
 
   def tick
-    switch_scene if args.inputs.keyboard.key_down.s
-    reload_mod if args.inputs.keyboard.key_down.f5
+    keys = args.inputs.keyboard.key_down
+    switch_scene if keys.s
+    reload_mod if keys.f5
     tick_current_scene
   end
 
