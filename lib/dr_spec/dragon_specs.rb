@@ -62,5 +62,7 @@ require "lib/dr_mod_tracker/spec/dr_binary_file_spec.rb"
 require "lib/dr_mod_tracker/spec/dr_mod_spec.rb"
 require "lib/dr_mod_tracker/spec/song_spec.rb"
 require "lib/dr_mod_tracker/spec/cell_spec.rb"
+require "lib/dr_mod_tracker/spec/load_tool_spec.rb"
+require "lib/dr_mod_tracker/spec/sample_spec.rb"
 
 require "spec/main_spec.rb"

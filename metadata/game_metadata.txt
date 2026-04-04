@@ -8,9 +8,9 @@
 
 devid=valeureux
 devtitle=Valeureux
-gameid=kanacard
-gametitle=kanaflashcard
-version=0.1
+gameid=dr_mod
+gametitle=dr_mod
+version=0.2.0
 icon=sprites/icon.png
 allscreen=true
 allscreen_max_scale=400

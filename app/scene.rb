@@ -24,12 +24,10 @@ require "app/scenes/concern.rb"
 require "app/scenes/concerns/background.rb"
 require "app/scenes/concerns/sound_box.rb"
 require "app/scenes/concerns/pattern_box.rb"
+require "app/component/pattern_player/pattern_draw.rb"
+require "app/component/pattern_player/pattern_side_bar.rb"
+require "app/component/pattern_player/pattern_audio.rb"
 require "app/component/pattern_player.rb"
 
-def load_dep_files path
-  $gtk.list_files(path).each do |file|
-    require File.join(path, file)
-  end
-end
-
-load_dep_files "app/scenes"
+# Scenes are loaded via explicit requires in main.rb.
+# Dynamic loading via $gtk.list_files removed for DR 6.x compatibility.

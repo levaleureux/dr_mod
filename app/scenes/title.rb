@@ -8,20 +8,25 @@ class Scene::Title < Scene
   NAME = :title
 
   def initialize args
-    @x                = 100
-    @y                = 100
-    @color            = {r: 255, g: 0, b: 0}
-    args.state.action = false
-    proc_play         = Proc.new { start_game }
+    init_defaults args
     init_scene_elements
   end
 
   def tick
-    switch_scene if args.inputs.keyboard.key_down.s
+    keys = args.inputs.keyboard.key_down
+    switch_scene if keys.s
+    reload_mod if keys.f5
     tick_current_scene
   end
 
   private
+
+  def init_defaults args
+    @pos_x            = 100
+    @pos_y            = 100
+    @color            = {r: 255, g: 0, b: 0}
+    args.state.action = false
+  end
 
   def init_scene_elements
     init_dr_mod
@@ -43,9 +48,12 @@ class Scene::Title < Scene
     args.state.next_scene = :sample
   end
 
-  def start_game
-    scene_quit
-    args.state.next_scene = :level
+  # Reload MOD file and recreate all players.
+  # Useful after code changes that affect parsing.
+  def reload_mod
+    @channels = []
+    init_scene_elements
+    @post_init = false
   end
 
   def scene_quit

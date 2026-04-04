@@ -16,10 +16,12 @@ class Song
     set_elements
   end
 
+  # Number of patterns stored in the file.
+  # song_positions contains pattern indices (0-based).
+  # max gives the highest index, +1 for the count.
+  # e.g. patterns 0..17 → max=17 → count=18
   def pattern_count
-    puts "songspositions"
-    puts @song_positions
-    @song_positions.max
+    @song_positions.max + 1
   end
 
   # TODO extract to constant
@@ -27,8 +29,9 @@ class Song
     1024 # pattern_lines 64 * line_size 16
   end
 
+  # ProTracker 1.1B: 31 samples (numbered 1-31 in spec)
   def samples_count
-    32
+    31
   end
 
   #

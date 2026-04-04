@@ -14,7 +14,7 @@ class Sample
   attr_reader  :num, :s_offset, :name, :length, :finetune, :volume,
     :repeat_point, :repeat_length, :data, :normalized_data
   #attr_accessor  :num, :s_offset, :name, :length, :finetune, :volume,
-  attr_accessor  :finetune
+  # attr_accessor :finetune was here but finetune is read-only
 
   def initialize num, mod_data
     @num      = num
@@ -38,16 +38,20 @@ class Sample
 
   # it's an amiga word
   #
+  # Length is stored as words (2 bytes). Multiply by 2 for bytes.
   def set_length
     offset  = offset_for :sample_length
-    @length = decode_amiga_word @mod_data, offset
+    @length = decode_amiga_word(@mod_data, offset) * 2
   end
 
+  # Finetune is a signed 4-bit value (-8 to +7) stored
+  # in the lower nibble of the byte. Upper nibble unused.
+  # Each step shifts pitch by 1/8 of a semitone.
   def set_finetune
     offset = offset_for :finetune
-    size      = T_SPEC[:finetune][:bytes]
-    @finetune = @mod_data[offset, size].unpack("C").first
-    #@finetune = set_attr :finetune
+    size   = T_SPEC[:finetune][:bytes]
+    raw    = @mod_data[offset, size].unpack("C").first & 0x0F
+    @finetune = raw > 7 ? raw - 16 : raw
   end
 
   def set_volume
