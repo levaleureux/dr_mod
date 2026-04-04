@@ -54,6 +54,7 @@ require "spec/matchers_1_spec.rb"
 require "spec/matchers_2_spec.rb"
 
 require "spec/component/game_spec.rb"
+require "spec/component/tempo_spec.rb"
 #
 # dr_mod lib spec
 require "lib/dr_mod_tracker/cell.rb"

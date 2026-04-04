@@ -27,6 +27,8 @@ require "app/scenes/concerns/pattern_box.rb"
 require "app/component/pattern_player/pattern_draw.rb"
 require "app/component/pattern_player/pattern_side_bar.rb"
 require "app/component/pattern_player/pattern_audio.rb"
+require "app/component/pattern_player/pattern_tempo.rb"
+require "app/component/pattern_player/pattern_input.rb"
 require "app/component/pattern_player.rb"
 
 # Scenes are loaded via explicit requires in main.rb.
