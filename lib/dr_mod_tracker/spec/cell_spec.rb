@@ -1,102 +1,85 @@
-spec "Cell" do
-  context "Note de base (La standard)" do
-    before do
-      # La note de base (A4) avec une période typique, sans effets
-      @cell_data = [0x10, 0x38, 0x00, 0x00]
-      @cell = Cell.new(@cell_data)
-    end
-
-    it "parses the sample number correctly" do
-
-      puts "TODO tester les bin reader".blue
-      puts @cell.sample_number.to_s.blue
-      # expect(@cell.sample_number).to eq(16)
-    end
-
-    xit "parses the note period correctly" do
-      expect(@cell.note_period).to eq(824)
-    end
-
-    xit "parses the effect command as 0 (no effect)" do
-      expect(@cell.effect_command).to eq(0)
-    end
-
-    xit "parses the effect argument as 0 (no argument)" do
-      expect(@cell.effect_argument).to eq(0)
-    end
+# Cell parsing specs
+#
+# ProTracker cell format: 4 bytes
+# Byte 0: high nibble = sample high bits, low nibble = period high bits
+# Byte 1: period low byte
+# Byte 2: high nibble = sample low bits, low nibble = effect command
+# Byte 3: effect argument
+#
+spec "Cell: silence" do
+  before do
+    @cell = Cell.new([0x00, 0x00, 0x00, 0x00])
   end
 
-  context "Note avec effet d'arpège" do
-    # context "Note avec effet d'arpège" do
-    before do
-      # Une note (A4) avec un effet d'arpège
-      @cell_data = [0x12, 0x34, 0x01, 0x23]
-      @cell = Cell.new(@cell_data)
-    end
-
-    xit "parses the sample number correctly" do
-      expect(@cell.sample_number).to eq(18)
-    end
-
-    xit "parses the note period correctly" do
-      expect(@cell.note_period).to eq(564)
-    end
-
-    xit "parses the effect command correctly (arpège)" do
-      expect(@cell.effect_command).to eq(2)
-    end
-
-    xit "parses the effect argument correctly" do
-      expect(@cell.effect_argument).to eq(3)
-    end
+  it "sample_number is 0" do
+    expect(@cell.sample_number).to eq(0)
   end
 
-  context "Note de silence (aucune note jouée, aucun effet)" do
-    before do
-      # Une cellule silencieuse sans note ni effet
-      @cell_data = [0x00, 0x00, 0x00, 0x00]
-      @cell = Cell.new(@cell_data)
-    end
+  it "note_period is 0" do
+    expect(@cell.note_period).to eq(0)
+  end
 
-    it "sets sample_number to 0" do
-      expect(@cell.sample_number).to eq(0)
-    end
+  it "effect_command is 0" do
+    expect(@cell.effect_command).to eq(0)
+  end
 
-    it "sets note_period to 0" do
-      expect(@cell.note_period).to eq(0)
-    end
-
-    it "sets effect_command to 0" do
-      expect(@cell.effect_command).to eq(0)
-    end
-
-    it "sets effect_argument to 0" do
-      expect(@cell.effect_argument).to eq(0)
-    end
+  it "effect_argument is 0" do
+    expect(@cell.effect_argument).to eq(0)
   end
 end
 
-#
-# sample number
-#
-focus_spec 'when reading sample number' do
-
-  it 'returns correct sample number for basic case' do
-    @cell = Cell.new([0x10, 0x00, 0x20, 0x00])  # 0x1 | 0x2 = 0x12 = 18
-    expect(@cell.sample_number).to eq(18)
+spec "Cell: sample number" do
+  it "basic case 0x12 = 18" do
+    cell = Cell.new([0x10, 0x00, 0x20, 0x00])
+    expect(cell.sample_number).to eq(18)
   end
 
-  it 'returns maximum possible sample number' do
-    @cell = Cell.new([0xF0, 0x00, 0xF0, 0x00])  # 0xF | 0xF = 0xFF = 255
-    expect(@cell.sample_number).to eq(255)
-  end
-  it 'returns correct sample number for mixed bits' do
-    @cell = Cell.new([0xA0, 0x00, 0x50, 0x00])  # 0xA | 0x5 = 0xA5 = 165
-    expect(@cell.sample_number).to eq(165)
+  it "maximum 0xFF = 255" do
+    cell = Cell.new([0xF0, 0x00, 0xF0, 0x00])
+    expect(cell.sample_number).to eq(255)
   end
 
-  it 'returns zero when all bits are low' do
-    @cell = Cell.new([0x00, 0x00, 0x00, 0x00])  # 0x0 | 0x0 = 0x00 = 0
-    expect(@cell.sample_number).to eq(0)
+  it "mixed bits 0xA5 = 165" do
+    cell = Cell.new([0xA0, 0x00, 0x50, 0x00])
+    expect(cell.sample_number).to eq(165)
+  end
+end
+
+spec "Cell: note period" do
+  it "parses 12-bit period from bytes 0-1" do
+    # byte0 low nibble (0x0) << 8 | byte1 (0x38) = 0x038 = 56
+    cell = Cell.new([0x10, 0x38, 0x00, 0x00])
+    expect(cell.note_period).to eq(56)
+  end
+
+  it "parses C-3 period 214 = 0x0D6" do
+    # byte0 low = 0x0, byte1 = 0xD6
+    cell = Cell.new([0x00, 0xD6, 0x00, 0x00])
+    expect(cell.note_period).to eq(214)
+  end
+
+  it "parses C-1 period 856 = 0x358" do
+    # byte0 low = 0x3, byte1 = 0x58
+    cell = Cell.new([0x03, 0x58, 0x00, 0x00])
+    expect(cell.note_period).to eq(856)
+  end
+end
+
+spec "Cell: effects" do
+  it "parses effect command from byte 3 high nibble" do
+    # byte3 = 0x23 → command = 2, argument = 3
+    cell = Cell.new([0x00, 0x00, 0x00, 0x23])
+    expect(cell.effect_command).to eq(2)
+  end
+
+  it "parses effect argument from byte 3 low nibble" do
+    cell = Cell.new([0x00, 0x00, 0x00, 0x23])
+    expect(cell.effect_argument).to eq(3)
+  end
+
+  it "parses volume slide effect 0xA5" do
+    cell = Cell.new([0x00, 0x00, 0x00, 0xA5])
+    expect(cell.effect_command).to eq(0xA)
+    expect(cell.effect_argument).to eq(5)
   end
 end
