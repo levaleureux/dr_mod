@@ -23,6 +23,7 @@ module PatternTempo
   # Channel effects: affect a single channel (volume, pitch)
   CHANNEL_EFFECTS = {
     0xC => :set_channel_volume,
+    0xA => :volume_slide,
   }.freeze
 
   private
@@ -94,6 +95,21 @@ module PatternTempo
   # Effect 0xC: set channel volume directly (0-64).
   def set_channel_volume ch, value
     @channel_volumes[ch] = value.clamp(0, 64)
+  end
+
+  # Effect 0xA: volume slide (pragmatic, once per line).
+  # Total change = speed × step. See #59 for per-tick version.
+  def volume_slide ch, value
+    delta = slide_delta value
+    new_vol = @channel_volumes[ch] + delta
+    @channel_volumes[ch] = new_vol.clamp(0, 64)
+  end
+
+  # High nibble = slide up, low nibble = slide down.
+  def slide_delta value
+    up   = (value >> 4) & 0x0F
+    down = value & 0x0F
+    (up - down) * @speed
   end
 
   # --- Tempo conversion ---
