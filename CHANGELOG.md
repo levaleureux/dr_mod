@@ -2,6 +2,18 @@
 
 All notable changes to dr_mod are documented in this file.
 
+## [0.2.1] — 2026-04-04
+
+### Fixed
+- Reload key: F5 not a valid DR key name, changed to W
+- Channel mute keys 1-4: DR uses word names (one, two, three, four)
+- Effect 0xF Set Speed/BPM: correct Amiga-to-DR tempo conversion
+
+### Added
+- PatternTempo module: Amiga CIA tick → DR frame conversion
+- PatternInput module: keyboard handling extracted
+- 5 tempo conversion tests (58 total)
+
 ## [0.2.0] — 2026-04-04
 
 ### Fixed
