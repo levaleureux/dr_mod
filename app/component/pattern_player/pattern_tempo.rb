@@ -1,11 +1,29 @@
 #
 # Tempo and effect dispatch for PatternPlayer.
-# Handles: 0xF (speed/BPM), 0xB (position jump), 0xD (pattern break).
+#
+# Effects are dispatched via hash lookup instead of case/when.
+# Global effects (tempo, navigation) use @effect_argument.
+# Channel effects (volume) also use @current_channel.
+#
+# To add a new effect: add an entry in GLOBAL_EFFECTS or
+# CHANNEL_EFFECTS and implement the handler method.
 #
 # Tempo formula: frames_per_line = (60 * speed * 2.5) / bpm
 # See doc/draft_posts/protracker_tempo.md
 #
 module PatternTempo
+
+  # Global effects: affect the whole song (tempo, navigation)
+  GLOBAL_EFFECTS = {
+    0xF => :set_speed_or_bpm,
+    0xB => :position_jump,
+    0xD => :pattern_break,
+  }.freeze
+
+  # Channel effects: affect a single channel (volume, pitch)
+  CHANNEL_EFFECTS = {
+    0xC => :set_channel_volume,
+  }.freeze
 
   private
 
@@ -20,32 +38,34 @@ module PatternTempo
     args.tick_count % @frames_per_line == 0 && @playing
   end
 
-  # Scan current row for effects that affect playback.
+  # Scan current row and dispatch effects.
   def apply_row_effects
     row = @pattern.rows[@current_line]
     row.each_with_index do |cell, ch|
-      apply_cell_effect cell, ch
+      dispatch_effects cell, ch
     end
   end
 
-  def apply_cell_effect cell, ch
-    apply_global_effect cell
-    apply_channel_effect cell, ch
+  def dispatch_effects cell, ch
+    @effect_command  = cell.effect_command
+    @effect_argument = cell.effect_argument
+    @current_channel = ch
+    apply_global_effect
+    apply_channel_effect
   end
 
-  def apply_global_effect cell
-    case cell.effect_command
-    when 0xF then set_speed_or_bpm cell.effect_argument
-    when 0xB then position_jump cell.effect_argument
-    when 0xD then pattern_break cell.effect_argument
-    end
+  def apply_global_effect
+    handler = GLOBAL_EFFECTS[@effect_command]
+    send(handler, @effect_argument) if handler
   end
 
-  def apply_channel_effect cell, ch
-    case cell.effect_command
-    when 0xC then set_channel_volume ch, cell.effect_argument
-    end
+  def apply_channel_effect
+    handler = CHANNEL_EFFECTS[@effect_command]
+    return unless handler
+    send(handler, @current_channel, @effect_argument)
   end
+
+  # --- Global effect handlers ---
 
   # Speed (1-31): ticks per line.
   # BPM (32+): beats per minute.
@@ -64,19 +84,22 @@ module PatternTempo
   # End pattern, next pattern at line x*10 + y.
   # Argument is BCD: high nibble = tens, low = ones.
   def pattern_break argument
-    target_line = (argument >> 4) * 10 + (argument & 0x0F)
+    target = (argument >> 4) * 10 + (argument & 0x0F)
     @current_pattern += 1
-    @current_line = target_line - 1
+    @current_line = target - 1
   end
+
+  # --- Channel effect handlers ---
 
   # Effect 0xC: set channel volume directly (0-64).
   def set_channel_volume ch, value
     @channel_volumes[ch] = value.clamp(0, 64)
   end
 
+  # --- Tempo conversion ---
+
   # Amiga: tick_rate = bpm * 2 / 5
-  # DR: frames = 60 * speed / tick_rate
-  #            = (60 * speed * 2.5) / bpm
+  # DR: frames = (60 * speed * 2.5) / bpm
   def compute_frames_per_line
     ((60 * @speed * 2.5) / @bpm).round
   end
