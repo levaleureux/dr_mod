@@ -26,9 +26,11 @@ module PatternInput
     end
   end
 
+  CHANNEL_KEYS = %w(one two three four).freeze
+
   def channel_key_down? ch
     keys = args.inputs.keyboard.key_down
-    keys.send("#{ch + 1}")
+    keys.send(CHANNEL_KEYS[ch])
   end
 
   def toggle_channel ch
