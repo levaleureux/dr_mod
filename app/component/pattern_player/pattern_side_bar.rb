@@ -22,7 +22,7 @@ module PatternSideBar
     loop_txt = @loop_pattern ? "LOOP ON" : "loop off"
     snd_txt  = @with_sound ? "SND ON" : "snd off"
     draw_label(-9, 18, "SPC:play M:#{snd_txt} L:#{loop_txt}", 1)
-    draw_label(-10, 18, "S:sample F5:reload 1-4:#{channels_txt}", 1)
+    draw_label(-10, 18, "S:sample W:reload 1-4:#{channels_txt}", 1)
   end
 
   def channels_txt

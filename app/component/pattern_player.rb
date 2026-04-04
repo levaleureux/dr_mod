@@ -1,13 +1,14 @@
 #
 # PatternPlayer: plays MOD patterns and handles navigation.
-# Rendering is split into PatternDraw (grid) and
-# PatternSideBar (title, channels, song positions).
-# Audio playback is in PatternAudio module.
+# Modules: PatternDraw, PatternSideBar, PatternAudio,
+#          PatternTempo, PatternInput.
 #
 class PatternPlayer
   include PatternDraw
   include PatternSideBar
   include PatternAudio
+  include PatternTempo
+  include PatternInput
   attr_gtk
 
   def initialize args, mod, channels
@@ -43,6 +44,11 @@ class PatternPlayer
   end
 
   def init_state
+    init_playback_state
+    init_tempo
+  end
+
+  def init_playback_state
     @current_line    = 5
     @current_pattern = 0
     @playing         = false
@@ -56,45 +62,9 @@ class PatternPlayer
     @muted_channels  = [false, false, false, false]
   end
 
-  def handle_input
-    handle_toggle_keys
-    handle_navigation_keys
-  end
-
-  def handle_toggle_keys
-    keys = args.inputs.keyboard.key_down
-    @with_sound = !@with_sound if keys.m
-    @playing = !@playing if keys.space
-    @loop_pattern = !@loop_pattern if keys.l
-    toggle_channels
-  end
-
-  # Keys 1-4 mute/unmute individual channels.
-  def toggle_channels
-    4.times do |ch|
-      toggle_channel ch if channel_key_down?(ch)
-    end
-  end
-
-  def channel_key_down? ch
-    keys = args.inputs.keyboard.key_down
-    keys.send("#{ch + 1}")
-  end
-
-  def toggle_channel ch
-    @muted_channels[ch] = !@muted_channels[ch]
-  end
-
-  def handle_navigation_keys
-    keys = args.inputs.keyboard.key_down
-    @current_line -= 1 if keys.up
-    @current_line += 1 if keys.down
-    @current_pattern -= 1 if keys.left
-    @current_pattern += 1 if keys.right
-  end
-
   def advance_if_playing
-    return unless args.tick_count % 10 == 0 && @playing
+    return unless playing_next_line?
+    apply_row_effects
     play_row_sounds
     @current_line += 1
   end
@@ -116,7 +86,6 @@ class PatternPlayer
   end
 
   # In loop mode, restart at line 0 of same pattern.
-  # Otherwise advance to next pattern.
   def wrap_line_down
     @current_line = 0
     @current_pattern += 1 unless @loop_pattern
