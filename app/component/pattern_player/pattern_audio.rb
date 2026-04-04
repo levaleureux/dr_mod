@@ -30,18 +30,20 @@ module PatternAudio
 
   # ProTracker samples are 1-indexed (0 = no instrument).
   # Ruby array is 0-indexed, so subtract 1.
+  # Set channel volume from sample, then play.
   def play_mod_sample num, cell
     smp = @mod.samples[cell.sample_number - 1]
+    @channel_volumes[num] = smp.volume
     rate = amiga_rate cell.note_period, smp.finetune
     sound = one_shot_lambda smp
-    play_on_channel num, rate, sound, smp
+    play_on_channel num, rate, sound
   end
 
-  # Volume 0-64 mapped to gain 0.0-1.0
-  def play_on_channel num, rate, sound, smp
+  # Use per-channel volume (set by sample or effect 0xC)
+  def play_on_channel num, rate, sound
     args.audio["channel_#{num}".to_sym] = {
       input: [1, rate, sound],
-      gain: smp.volume / 64.0
+      gain: @channel_volumes[num] / 64.0
     }
   end
 

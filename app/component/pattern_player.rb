@@ -56,7 +56,13 @@ class PatternPlayer
     @loop_pattern    = false
   end
 
+  # Per-channel volume state (0-64), default from sample
+  def init_channel_volumes
+    @channel_volumes = [64, 64, 64, 64]
+  end
+
   def init_ui
+    init_channel_volumes
     @color_tonic     = { r: 208, g: 130, b: 130 }
     @played_sounds   = ["", "", "", ""]
     @muted_channels  = [false, false, false, false]

@@ -22,16 +22,28 @@ module PatternTempo
 
   # Scan current row for effects that affect playback.
   def apply_row_effects
-    @pattern.rows[@current_line].each do |cell|
-      apply_cell_effect cell
+    row = @pattern.rows[@current_line]
+    row.each_with_index do |cell, ch|
+      apply_cell_effect cell, ch
     end
   end
 
-  def apply_cell_effect cell
+  def apply_cell_effect cell, ch
+    apply_global_effect cell
+    apply_channel_effect cell, ch
+  end
+
+  def apply_global_effect cell
     case cell.effect_command
     when 0xF then set_speed_or_bpm cell.effect_argument
     when 0xB then position_jump cell.effect_argument
     when 0xD then pattern_break cell.effect_argument
+    end
+  end
+
+  def apply_channel_effect cell, ch
+    case cell.effect_command
+    when 0xC then set_channel_volume ch, cell.effect_argument
     end
   end
 
@@ -55,6 +67,11 @@ module PatternTempo
     target_line = (argument >> 4) * 10 + (argument & 0x0F)
     @current_pattern += 1
     @current_line = target_line - 1
+  end
+
+  # Effect 0xC: set channel volume directly (0-64).
+  def set_channel_volume ch, value
+    @channel_volumes[ch] = value.clamp(0, 64)
   end
 
   # Amiga: tick_rate = bpm * 2 / 5
