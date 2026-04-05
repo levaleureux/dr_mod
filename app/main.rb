@@ -1,4 +1,6 @@
 require 'lib/dr_mod_tracker/dr_mod.rb'
+require "app/ui/layout_config.rb"
+require "app/ui/status_bar.rb"
 require "app/scenes/concern.rb"
 require "app/scene.rb"
 require "app/scenes/scene_manager.rb"

@@ -1,33 +1,30 @@
 #
-# Where there is the main loop
+# Main game loop. Renders scenes and status bar.
 #
 class Game
   attr_gtk
 
-  # TODO move scene in scene manager
   def initialize args
-    self.args      = args
-    @scene_manager = SceneManager.new args
-    @scene_title   = Scene::Title.new args
-    @scene_sample  = Scene::Sample.new args
-    # TODO sound scene
+    self.args   = args
+    init_components args
     post_init
   end
 
-  #
-  # TODO use state directly
-  #
   def tick
-    state.my_scenes[state.current_scene].tick
+    current_scene.tick
     @scene_manager.tick
-    # TODO inputs directly ?
-    if args.inputs.keyboard.key_down.escape
-      # TODO $gtk
-      args.gtk.request_quit
-    end
+    draw_status_bar
+    handle_quit
   end
 
   private
+
+  def init_components args
+    @scene_manager = SceneManager.new args
+    @scene_title   = Scene::Title.new args
+    @scene_sample  = Scene::Sample.new args
+    @status_bar    = StatusBar.new
+  end
 
   def post_init
     @scene_manager.args = args
@@ -44,4 +41,22 @@ class Game
     end
   end
 
+  def current_scene
+    state.my_scenes[state.current_scene]
+  end
+
+  def draw_status_bar
+    @status_bar.args = args
+    @status_bar.tick status_context
+  end
+
+  # Build context hash from current state.
+  def status_context
+    { mode: state.current_scene }
+  end
+
+  def handle_quit
+    return unless args.inputs.keyboard.key_down.escape
+    args.gtk.request_quit
+  end
 end
