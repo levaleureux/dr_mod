@@ -19,6 +19,10 @@ class Scene::Title < Scene
     tick_current_scene
   end
 
+  def status_context
+    @patterns_player.status_info
+  end
+
   private
 
   def init_defaults args

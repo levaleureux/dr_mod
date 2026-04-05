@@ -50,9 +50,12 @@ class Game
     @status_bar.tick status_context
   end
 
-  # Build context hash from current state.
+  # Build context hash from current scene.
   def status_context
-    { mode: state.current_scene }
+    base = { mode: state.current_scene }
+    scene = current_scene
+    return base unless scene.respond_to?(:status_context)
+    base.merge(scene.status_context)
   end
 
   def handle_quit

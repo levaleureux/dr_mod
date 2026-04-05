@@ -25,6 +25,15 @@ class PatternPlayer
     tick_render
   end
 
+  # Expose state for StatusBar display.
+  def status_info
+    { mod_name: @mod.song.name.strip,
+      pattern: @current_pattern,
+      line: @current_line,
+      total_patterns: @mod.song.length,
+      speed: @speed, bpm: @bpm }
+  end
+
   private
 
   def tick_update
