@@ -13,6 +13,7 @@ class Game
   def tick
     current_scene.tick
     @scene_manager.tick
+    draw_sidebar
     draw_status_bar
     handle_quit
   end
@@ -24,6 +25,7 @@ class Game
     @scene_title   = Scene::Title.new args
     @scene_sample  = Scene::Sample.new args
     @status_bar    = StatusBar.new
+    @sidebar       = SidebarPanel.new
   end
 
   def post_init
@@ -43,6 +45,13 @@ class Game
 
   def current_scene
     state.my_scenes[state.current_scene]
+  end
+
+  def draw_sidebar
+    @sidebar.args = args
+    scene = current_scene
+    ctx = scene.respond_to?(:sidebar_context) ? scene.sidebar_context : {}
+    @sidebar.tick ctx
   end
 
   def draw_status_bar

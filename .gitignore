@@ -3,3 +3,5 @@ builds/*
 tmp/*
 logs/*
 personal_tracking/*
+.DS_Store
+test-failures.txt

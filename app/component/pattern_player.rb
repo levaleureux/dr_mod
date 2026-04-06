@@ -5,7 +5,6 @@
 #
 class PatternPlayer
   include PatternDraw
-  include PatternSideBar
   include PatternAudio
   include PatternTempo
   include PatternInput
@@ -34,6 +33,27 @@ class PatternPlayer
       speed: @speed, bpm: @bpm }
   end
 
+  # Expose state for SidebarPanel.
+  def sidebar_info
+    sidebar_toggle_state.merge(sidebar_song_state)
+  end
+
+  def sidebar_toggle_state
+    { loop: @loop_pattern, sound: @with_sound,
+      muted: @muted_channels, played_sounds: @played_sounds }
+  end
+
+  def sidebar_song_state
+    { current_pattern: @current_pattern,
+      total_patterns: @mod.song.length,
+      song_positions: song_positions_slice }
+  end
+
+  def song_positions_slice
+    len = @mod.song.length
+    @mod.song.song_positions[0, len]
+  end
+
   private
 
   def tick_update
@@ -43,7 +63,6 @@ class PatternPlayer
   end
 
   def tick_render
-    side_bar
     pattern_section
   end
 

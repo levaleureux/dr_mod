@@ -29,17 +29,23 @@ dr_mod/
 └── metadata/                   # Metadonnees DragonRuby
 ```
 
+## DragonRuby Version
+
+**Ce projet cible DragonRuby 6.x (2026) uniquement.**
+Le support de DR 2024 est abandonne. Utiliser les APIs modernes sans restriction.
+
+SDK local : `~/drgame/dragonruby-macos-6.51-standard/`
+DR Standard ne supporte pas les chemins externes — copier le projet dans `mygame/` du SDK.
+
 ## Commandes
 
 ```bash
-# Lancer dr_mod (depuis la racine drgame/)
-../../dragonruby-macos/dragonruby projects/dr_mod
+# Lancer dr_mod (copier dans le SDK puis lancer)
+cp -r . ~/drgame/dragonruby-macos-6.51-standard/mygame
+cd ~/drgame/dragonruby-macos-6.51-standard && ./dragonruby
 
-# Lancer les tests (mode dev — reste ouvert meme si tests echouent)
-../../dragonruby-macos/dragonruby projects/dr_mod --eval app/tests.rb --no-tick
-
-# Lancer les tests (mode CI — exit code 1 si echec, pour lefthook/CI)
-../../dragonruby-macos/dragonruby projects/dr_mod --eval app/tests.rb --no-tick --exit-on-fail
+# Lancer les tests (mode CI — exit code 1 si echec)
+./dragonruby . --eval app/tests.rb --no-tick --exit-on-fail
 ```
 
 ### DragonRuby et tests (dr_spec)

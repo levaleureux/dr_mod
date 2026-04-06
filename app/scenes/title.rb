@@ -23,6 +23,10 @@ class Scene::Title < Scene
     @patterns_player.status_info
   end
 
+  def sidebar_context
+    @patterns_player.sidebar_info
+  end
+
   private
 
   def init_defaults args

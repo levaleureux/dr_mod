@@ -10,29 +10,31 @@ module LayoutConfig
 
   # --- Screen dimensions (read from DR grid) ---
 
+  # Use the full allscreen area for responsive layout.
+  # allscreen values extend beyond the 1280x720 safe area
+  # when the window is larger than default.
   def screen_w
-    args.grid.allscreen_right - args.grid.allscreen_left
+    screen_right - screen_left
   end
 
   def screen_h
-    args.grid.allscreen_top - args.grid.allscreen_bottom
+    screen_top - screen_bottom
   end
 
-  # Edges of the actual screen (allscreen mode)
   def screen_bottom
-    args.grid.allscreen_bottom
+    [args.grid.allscreen_bottom, 0].min
   end
 
   def screen_left
-    args.grid.allscreen_left
+    [args.grid.allscreen_left, 0].min
   end
 
   def screen_right
-    args.grid.allscreen_right
+    [args.grid.allscreen_right, 1280].max
   end
 
   def screen_top
-    args.grid.allscreen_top
+    [args.grid.allscreen_top, 720].max
   end
 
   # --- Status bar (vim-like, always at bottom) ---
@@ -40,23 +42,38 @@ module LayoutConfig
   STATUS_BAR_H = 24
 
   def content_h
-    screen_h - STATUS_BAR_H
+    screen_top - screen_bottom - STATUS_BAR_H
   end
 
   def status_bar_y
     screen_bottom
   end
 
+  # Content starts above the status bar
+  def content_top
+    screen_top
+  end
+
+  # Font size with fixed boost for readability.
+  # TODO #64: detect physical window size for true responsive text.
+  def dynamic_font_size base_size = 0
+    base_size + 2
+  end
+
   # --- Panel proportions ---
 
-  # Sidebar takes 25% of width
+  # Sidebar on the right, takes 25% of width
   def sidebar_w
     (screen_w * 0.25).to_i
   end
 
-  # Pattern area takes the remaining 75%
+  def sidebar_x
+    screen_right - sidebar_w
+  end
+
+  # Pattern area takes the left 75%
   def pattern_x
-    sidebar_w
+    screen_left
   end
 
   def pattern_w
