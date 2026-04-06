@@ -2,6 +2,8 @@
 # Channels and shortcuts column for SidebarPanel.
 #
 module SidebarChannels
+  include SidebarColors
+  include LayoutConfig
 
   private
 

@@ -2,6 +2,8 @@
 # Song positions column for SidebarPanel.
 #
 module SidebarPositions
+  include SidebarColors
+  include LayoutConfig
 
   private
 

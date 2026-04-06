@@ -39,7 +39,7 @@ module LayoutConfig
 
   # --- Status bar (vim-like, always at bottom) ---
 
-  STATUS_BAR_H = 24
+  STATUS_BAR_H = 26
 
   def content_h
     screen_top - screen_bottom - STATUS_BAR_H
@@ -54,10 +54,11 @@ module LayoutConfig
     screen_top
   end
 
-  # Font size with fixed boost for readability.
-  # TODO #64: detect physical window size for true responsive text.
+  # Font size for sidebar text.
+  # Moderate boost (+3) for readability without blur.
+  # TODO #64: bitmap font for pixel-perfect scaling.
   def dynamic_font_size base_size = 0
-    base_size + 2
+    base_size + 3
   end
 
   # --- Panel proportions ---

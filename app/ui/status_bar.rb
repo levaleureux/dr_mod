@@ -14,7 +14,7 @@ class StatusBar
   MODE_TXT = { r: 20, g: 20, b: 20 }.freeze
   FONT = "fonts/jetbrains_mono.ttf"
   FONT_BOLD = "fonts/jetbrains_mono_bold.ttf"
-  FONT_SIZE = -3
+  FONT_SIZE = 0
 
   def tick context
     draw_bar_bg
