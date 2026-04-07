@@ -39,7 +39,7 @@ module LayoutConfig
 
   # --- Status bar (vim-like, always at bottom) ---
 
-  STATUS_BAR_H = 26
+  STATUS_BAR_H = 20
 
   def content_h
     screen_top - screen_bottom - STATUS_BAR_H

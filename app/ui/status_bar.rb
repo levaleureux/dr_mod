@@ -14,7 +14,7 @@ class StatusBar
   MODE_TXT = { r: 20, g: 20, b: 20 }.freeze
   FONT = "fonts/jetbrains_mono.ttf"
   FONT_BOLD = "fonts/jetbrains_mono_bold.ttf"
-  FONT_SIZE = 0
+  FONT_SIZE = -1
 
   def tick context
     draw_bar_bg
@@ -41,8 +41,10 @@ class StatusBar
     draw_badge_text label
   end
 
+  MODE_LABELS = { title: "PLAY", sample: "SAMPLE" }.freeze
+
   def mode_label mode
-    mode.to_s.upcase
+    MODE_LABELS[mode] || mode.to_s.upcase
   end
 
   def draw_badge_bg badge_w
@@ -53,7 +55,15 @@ class StatusBar
   end
 
   def draw_badge_text label
-    args.outputs.primitives << label_at(12, label, FONT_BOLD, MODE_TXT)
+    args.outputs.primitives << badge_label_at(12, label)
+  end
+
+  def badge_label_at offset_x, text
+    { x: screen_left + offset_x,
+      y: status_bar_y + 18,
+      text: text, font: FONT_BOLD,
+      size_enum: FONT_SIZE - 2,
+      primitive_marker: :label }.merge(MODE_TXT)
   end
 
   def draw_info context
@@ -63,7 +73,7 @@ class StatusBar
 
   def label_at offset_x, text, font, color
     { x: screen_left + offset_x,
-      y: status_bar_y + 17,
+      y: status_bar_y + 20,
       text: text, font: font,
       size_enum: FONT_SIZE,
       primitive_marker: :label }.merge(color)

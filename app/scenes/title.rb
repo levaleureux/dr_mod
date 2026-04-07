@@ -14,7 +14,7 @@ class Scene::Title < Scene
 
   def tick
     keys = args.inputs.keyboard.key_down
-    switch_scene if keys.s
+    switch_scene if keys.tab
     reload_mod if keys.w
     tick_current_scene
   end

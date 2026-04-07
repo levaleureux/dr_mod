@@ -35,7 +35,7 @@ module SidebarChannels
   def draw_shortcut_lines y_base
     loop_txt = @ctx[:loop] ? "LOOP" : "loop"
     snd_txt  = @ctx[:sound] ? "SND" : "snd"
-    label_at right_col_x, y_base, "SPC:play", @fs, DIM
+    label_at right_col_x, y_base, "SPC:play TAB:sample", @fs, DIM
     label_at right_col_x, y_base - LINE_H, "M:#{snd_txt} L:#{loop_txt}", @fs, DIM
     label_at right_col_x, y_base - LINE_H * 2, "W:reload 1-4:#{channels_txt}", @fs, DIM
   end
