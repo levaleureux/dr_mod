@@ -55,10 +55,10 @@ module LayoutConfig
   end
 
   # Font size for sidebar text.
-  # Moderate boost (+3) for readability without blur.
-  # TODO #64: bitmap font for pixel-perfect scaling.
+  # Tuned for MacBook Air M2 13" full screen.
+  # TODO #64: bitmap font for true responsive text.
   def dynamic_font_size base_size = 0
-    base_size + 3
+    base_size + 1
   end
 
   # --- Panel proportions ---

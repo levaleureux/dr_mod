@@ -8,6 +8,7 @@ class PatternPlayer
   include PatternAudio
   include PatternTempo
   include PatternInput
+  include PatternState
   attr_gtk
 
   def initialize args, mod, channels
@@ -19,39 +20,10 @@ class PatternPlayer
   end
 
   def tick
-    @pattern = @patterns[@current_pattern]
+    pattern_idx = @mod.song.song_positions[@current_pattern]
+    @pattern = @patterns[pattern_idx]
     tick_update
     tick_render
-  end
-
-  # Expose state for StatusBar display.
-  def status_info
-    { mod_name: @mod.song.name.strip,
-      pattern: @current_pattern,
-      line: @current_line,
-      total_patterns: @mod.song.length,
-      speed: @speed, bpm: @bpm }
-  end
-
-  # Expose state for SidebarPanel.
-  def sidebar_info
-    sidebar_toggle_state.merge(sidebar_song_state)
-  end
-
-  def sidebar_toggle_state
-    { loop: @loop_pattern, sound: @with_sound,
-      muted: @muted_channels, played_sounds: @played_sounds }
-  end
-
-  def sidebar_song_state
-    { current_pattern: @current_pattern,
-      total_patterns: @mod.song.length,
-      song_positions: song_positions_slice }
-  end
-
-  def song_positions_slice
-    len = @mod.song.length
-    @mod.song.song_positions[0, len]
   end
 
   private
@@ -126,7 +98,7 @@ class PatternPlayer
   end
 
   def clamp_pattern
-    max = 11 # TODO use @mod.song.length
+    max = @mod.song.length - 1
     @current_pattern = 0 if @current_pattern > max
     @current_pattern = max if @current_pattern < 0
   end

@@ -47,7 +47,7 @@ class SidebarPanel
   end
 
   def top_y row
-    content_top - row * 18
+    content_top - row * 24
   end
 
   def label_at pos_x, pos_y, text, size, color

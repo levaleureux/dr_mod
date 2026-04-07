@@ -26,9 +26,11 @@ module SidebarPositions
 
   def draw_pos_cursor pos
     return unless @ctx[:current_pattern] == pos
+    # Label baseline is below pos_y. Cursor sits below the line,
+    # with 2px upward offset for visual alignment.
     args.outputs.solids << {
-      x: sidebar_x + 6, y: pos_y(pos) - 10,
-      w: col_w - 10, h: LINE_H
+      x: sidebar_x + 6, y: pos_y(pos) - LINE_H + 1,
+      w: col_w - 10, h: LINE_H - 1
     }.merge(CURSOR)
   end
 
