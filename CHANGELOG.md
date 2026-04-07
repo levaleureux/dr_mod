@@ -2,6 +2,36 @@
 
 All notable changes to dr_mod are documented in this file.
 
+## [0.3.0] — 2026-04-07
+
+### Added
+- **StatusBar** vim-like at bottom: mod name, pattern/line, speed/BPM (#60)
+- **SidebarPanel** on the right: positions cursor + channels/shortcuts (#62)
+- **Responsive PatternDraw**: 64 rows fit between status bar and top
+- **Tab toggle** between PLAY (tracker) and SAMPLE views
+- **JetBrains Mono Nerd Font** for UI
+- **PatternState module**: extracted state exposure
+- **Hash-based effect dispatch** (#46, #47, #48, #49)
+- **Effect 0xF** Set Speed/BPM with Amiga→DR conversion (#46)
+- **Effect 0xC** Set Volume per channel (#47)
+- **Effect 0xA** Volume Slide (pragmatic, once per line) (#48)
+- **Effects 0xB/0xD** Position Jump and Pattern Break (#49)
+- **PatternNavigation tests**: clamp_pattern, wrap_line, loop mode (#65)
+- **Effect dispatch design doc** (doc/effect_dispatch_design.md)
+- **ProTracker tempo blog post** (doc/draft_posts/protracker_tempo.md)
+
+### Changed
+- **DR 6.x only**: dropped DragonRuby 2024 support (#41)
+- **Pattern lookup** uses song_positions[current_pattern] (was off-by-one)
+- **clamp_pattern** uses song.length-1 instead of hardcoded 11
+- 75 tests (was 53)
+
+### Fixed
+- **Cursor alignment** pixel-perfect on current position
+- **Pattern navigation** to last position no longer crashes
+- **Reload key** F5 → W (F5 not valid in DR)
+- **Channel keys** 1-4 use word names (one, two, three, four)
+
 ## [0.2.1] — 2026-04-04
 
 ### Fixed
