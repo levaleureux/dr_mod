@@ -22,7 +22,7 @@ class Scene::Sample < Scene
 
   def handle_keys
     keys = args.inputs.keyboard.key_down
-    switch_space if keys.c
+    switch_space if keys.tab
     activate_scene unless args.state.action
   end
 

@@ -5,10 +5,10 @@
 #
 class PatternPlayer
   include PatternDraw
-  include PatternSideBar
   include PatternAudio
   include PatternTempo
   include PatternInput
+  include PatternState
   attr_gtk
 
   def initialize args, mod, channels
@@ -20,7 +20,8 @@ class PatternPlayer
   end
 
   def tick
-    @pattern = @patterns[@current_pattern]
+    pattern_idx = @mod.song.song_positions[@current_pattern]
+    @pattern = @patterns[pattern_idx]
     tick_update
     tick_render
   end
@@ -34,7 +35,6 @@ class PatternPlayer
   end
 
   def tick_render
-    side_bar
     pattern_section
   end
 
@@ -56,7 +56,13 @@ class PatternPlayer
     @loop_pattern    = false
   end
 
+  # Per-channel volume state (0-64), default from sample
+  def init_channel_volumes
+    @channel_volumes = [64, 64, 64, 64]
+  end
+
   def init_ui
+    init_channel_volumes
     @color_tonic     = { r: 208, g: 130, b: 130 }
     @played_sounds   = ["", "", "", ""]
     @muted_channels  = [false, false, false, false]
@@ -92,7 +98,7 @@ class PatternPlayer
   end
 
   def clamp_pattern
-    max = 11 # TODO use @mod.song.length
+    max = @mod.song.length - 1
     @current_pattern = 0 if @current_pattern > max
     @current_pattern = max if @current_pattern < 0
   end

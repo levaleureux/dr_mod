@@ -1,4 +1,10 @@
 require 'lib/dr_mod_tracker/dr_mod.rb'
+require "app/ui/layout_config.rb"
+require "app/ui/status_bar.rb"
+require "app/ui/sidebar_colors.rb"
+require "app/ui/sidebar_positions.rb"
+require "app/ui/sidebar_channels.rb"
+require "app/ui/sidebar_panel.rb"
 require "app/scenes/concern.rb"
 require "app/scene.rb"
 require "app/scenes/scene_manager.rb"
@@ -12,6 +18,7 @@ require "app/component/pattern_player/pattern_side_bar.rb"
 require "app/component/pattern_player/pattern_audio.rb"
 require "app/component/pattern_player/pattern_tempo.rb"
 require "app/component/pattern_player/pattern_input.rb"
+require "app/component/pattern_player/pattern_state.rb"
 require "app/component/pattern_player.rb"
 require "app/component/game.rb"
 

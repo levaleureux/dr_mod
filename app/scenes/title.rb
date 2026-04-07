@@ -14,9 +14,17 @@ class Scene::Title < Scene
 
   def tick
     keys = args.inputs.keyboard.key_down
-    switch_scene if keys.s
+    switch_scene if keys.tab
     reload_mod if keys.w
     tick_current_scene
+  end
+
+  def status_context
+    @patterns_player.status_info
+  end
+
+  def sidebar_context
+    @patterns_player.sidebar_info
   end
 
   private

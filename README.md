@@ -18,11 +18,12 @@ and plays samples with waveform visualization.
 
 ## Getting Started
 
-dr_mod requires [DragonRuby Game Toolkit](https://dragonruby.org/).
+dr_mod requires [DragonRuby Game Toolkit](https://dragonruby.org/) **version 6.x (2026)**.
 
 ```bash
-# Launch the game
-dragonruby path/to/dr_mod
+# Copy project into DragonRuby SDK as mygame/
+cp -r dr_mod /path/to/dragonruby-sdk/mygame
+cd /path/to/dragonruby-sdk && ./dragonruby
 
 # Run the tests
 dragonruby path/to/dr_mod --eval app/tests.rb --no-tick --exit-on-fail

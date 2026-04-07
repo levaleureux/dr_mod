@@ -260,7 +260,7 @@ SceneManager
     └── Controls:
         Space: play/pause    M: sound on/off
         L: loop pattern      1-4: mute channels
-        F5: reload MOD       R: reset
+        W: reload MOD        R: reset
 ```
 
 ## Module Responsibilities
@@ -276,9 +276,20 @@ SceneManager
 | PatternDraw | Pattern grid rendering | PatternPlayer |
 | PatternSideBar | Sidebar UI | PatternPlayer |
 | PatternAudio | MOD sample playback | PatternPlayer |
+| PatternTempo | Tempo, effects dispatch (hash-based) | PatternPlayer |
+| PatternInput | Keyboard input handling | PatternPlayer |
 | SfxDraw | Waveform rendering | SfxPlayer |
 | Background | Screen borders, MOD loading | Title |
 | SoundBox | Playback controls, keyboard | Sample |
+
+## Effect Dispatch
+
+Effects use hash-based dispatch (see doc/effect_dispatch_design.md).
+
+| Hash | Effects | Scope |
+|------|---------|-------|
+| GLOBAL_EFFECTS | 0xF speed/BPM, 0xB jump, 0xD break | Song-wide |
+| CHANNEL_EFFECTS | 0xC set volume, 0xA volume slide | Per-channel |
 
 ## Key Constants
 
@@ -287,5 +298,7 @@ SceneManager
 | AMIGA_PAL_FREQ | 7,093,789.2 Hz | SfxPlayer |
 | C3_PERIOD | 214 | SfxPlayer |
 | SAMPLE_COUNT | 31 | SamplesLoader |
+| GLOBAL_EFFECTS | {0xF, 0xB, 0xD} | PatternTempo |
+| CHANNEL_EFFECTS | {0xC, 0xA} | PatternTempo |
+| CHANNEL_KEYS | [one, two, three, four] | PatternInput |
 | MOD_FILES | test .mod paths | Background |
-| WAV_SAMPLES | legacy WAV names | PatternAudio |

@@ -1,90 +1,87 @@
 #
-# Pattern rendering: draws the 64-row pattern grid
-# with colored highlight on current and beat lines.
-#
-# See #20 for vertical alignment analysis.
+# Pattern grid rendering: 64 rows x 4 channels.
+# Responsive to LayoutConfig (sidebar_x, content_h, content_top).
+# Style: alternating gray columns + green beat lines + red current line.
 #
 module PatternDraw
+  include LayoutConfig
+
+  ROW_COUNT = 64
+  BG_LIGHT  = { r: 220, g: 220, b: 220 }.freeze
+  BG_DARK   = { r: 195, g: 195, b: 195 }.freeze
+  BEAT_COLOR = { r: 130, g: 188, b: 130 }.freeze
 
   private
 
   def pattern_section
+    cache_pattern_geometry
     render_bg_columns
     render_beat_lines
     render_current_line @current_line, @color_tonic
     render_all_rows
   end
 
-  def render_bg_columns
-    render_bg_col 3, -71
-    render_bg_col 7, 131
+  # Cache geometry once per tick.
+  def cache_pattern_geometry
+    @pat_x = pattern_x
+    @pat_w = pattern_w
+    @pat_y_top = content_top
+    @row_h = content_h.to_f / ROW_COUNT
+    @col_w = @pat_w.to_f / 4
   end
+
+  # --- Background columns (alternating gray) ---
+
+  def render_bg_columns
+    4.times do |ch|
+      color = ch.even? ? BG_LIGHT : BG_DARK
+      args.outputs.solids << channel_bg_rect(ch).merge(color)
+    end
+  end
+
+  def channel_bg_rect ch
+    { x: (@pat_x + @col_w * ch).to_i,
+      y: STATUS_BAR_H,
+      w: @col_w.ceil, h: content_h }
+  end
+
+  # --- Beat lines (every 16 rows) ---
 
   def render_beat_lines
-    color = { r: 130, g: 188, b: 130 }
     [0, 16, 32, 48].each do |line|
-      render_current_line line, color
+      render_current_line line, BEAT_COLOR
     end
   end
+
+  # --- Current line highlight (full width band) ---
+
+  def render_current_line row, color
+    args.outputs.solids << {
+      x: @pat_x, y: row_y(row),
+      w: @pat_w, h: @row_h.ceil
+    }.merge(color)
+  end
+
+  # --- Row text (4 cells per row) ---
 
   def render_all_rows
-    64.times do |line|
-      render_line @pattern, line, line
+    ROW_COUNT.times do |row|
+      render_row row
     end
   end
 
-  def render_bg_col col, x_offset
-    rect = bg_col_rect col, x_offset
-    args.outputs.solids << rect
+  def render_row row
+    args.outputs.labels << row_label(row)
   end
 
-  def bg_col_rect col, x_offset
-    grey = 200
-    rect = args.layout.rect(row: 0, col: col, w: 4, h: 1)
-      .merge(r: grey, g: grey, b: grey)
-    adjust_bg_col rect, x_offset
+  def row_label row
+    { x: @pat_x + 8, y: row_y(row) + @row_h.to_i - 2,
+      text: @pattern.row_info(row), size_enum: -5,
+      vertical_alignment_enum: 2, alignment_enum: 0 }
   end
 
-  def adjust_bg_col rect, x_offset
-    rect.x += x_offset
-    rect.h = 1300 - 16
-    rect.y -= 1000 - 22
-    rect
-  end
-
-  # See #20 analysis for vertical alignment details.
-  def render_current_line row, color
-    rect = current_line_rect row, color
-    args.outputs.solids << rect
-  end
-
-  def current_line_rect row, color
-    rect = args.layout.rect(row: 0, col: 1, w: 16, h: 1)
-      .merge(**color)
-    adjust_current_line rect, row
-  end
-
-  # Same Y formula as text (910 - row*20), offset -10
-  # to center the 20px band on the text line.
-  def adjust_current_line rect, row
-    rect.w += 25
-    rect.x -= 3
-    rect.h = 20
-    rect.y = 640 - row * 20 + 270 - 10
-    rect
-  end
-
-  def render_line pattern, num, row
-    rect = line_label_rect row
-    args.outputs.labels << rect.merge(
-      text: pattern.row_info(num),
-      vertical_alignment_enum: 1,
-      alignment_enum: 0, size_enum: 1)
-  end
-
-  def line_label_rect row
-    rect = args.layout.rect(row: row, col: 1)
-    rect.y = 640 - row * 20 + 270
-    rect
+  # Y position of row N (top-down: row 0 at top)
+  def row_y row
+    (@pat_y_top - @row_h * (row + 1)).to_i
   end
 end

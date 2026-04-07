@@ -17,31 +17,41 @@ module PatternAudio
   end
 
   def play_channel_sound num
-    return if @muted_channels[num]
-    return unless @with_sound
     cell = @pattern.rows[@current_line][num]
     return if skip_cell? cell
-    play_mod_sample num, cell
+    update_channel_info num, cell
+    play_if_audible num, cell
+  end
+
+  def play_if_audible num, cell
+    return if @muted_channels[num]
+    return unless @with_sound
+    play_mod_sound num, cell
+  end
+
+  def update_channel_info num, cell
+    smp = @mod.samples[cell.sample_number - 1]
+    @played_sounds[num] = smp.name.to_s.strip
+    @channel_volumes[num] = smp.volume
   end
 
   def skip_cell? cell
     cell.note_period == 0 || cell.sample_number == 0
   end
 
-  # ProTracker samples are 1-indexed (0 = no instrument).
-  # Ruby array is 0-indexed, so subtract 1.
-  def play_mod_sample num, cell
+  # Play sample audio on the channel.
+  def play_mod_sound num, cell
     smp = @mod.samples[cell.sample_number - 1]
     rate = amiga_rate cell.note_period, smp.finetune
     sound = one_shot_lambda smp
-    play_on_channel num, rate, sound, smp
+    play_on_channel num, rate, sound
   end
 
-  # Volume 0-64 mapped to gain 0.0-1.0
-  def play_on_channel num, rate, sound, smp
+  # Use per-channel volume (set by sample or effect 0xC)
+  def play_on_channel num, rate, sound
     args.audio["channel_#{num}".to_sym] = {
       input: [1, rate, sound],
-      gain: smp.volume / 64.0
+      gain: @channel_volumes[num] / 64.0
     }
   end
 
