@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Vérifie le seuil minimal de couverture à partir de coverage/coverage.json,
+# généré par un run dr_spec préalable (app/tests.rb appelle DrSpec::Coverage).
+#
+# Usage : bin/coverage_check   (après bin/dr_spec_quiet)
+# Seuil : variable COVERAGE_MIN (défaut 90).
+# Portée : la couverture ne suit que la LOGIQUE PURE de dr_mod_tracker ; les
+#          modules d'affichage (*_print) et d'E-S sont chargés hors
+#          instrumentation (voir app/tests.rb).
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+THRESHOLD="${COVERAGE_MIN:-90}"
+
+if [ ! -f coverage/coverage.json ]; then
+  echo "coverage_check: coverage/coverage.json manquant (lancez bin/dr_spec_quiet d'abord)" >&2
+  exit 1
+fi
+
+THRESHOLD="$THRESHOLD" ruby -e '
+  require "json"
+  pct = JSON.parse(File.read("coverage/coverage.json"))["total"]["percentage"]
+  min = Integer(ENV["THRESHOLD"])
+  printf("coverage: %.1f%% (seuil min %d%%)\n", pct, min)
+  exit(pct >= min ? 0 : 1)
+'
