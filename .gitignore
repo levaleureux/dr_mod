@@ -5,3 +5,6 @@ logs/*
 personal_tracking/*
 .DS_Store
 test-failures.txt
+
+# Rapports de couverture dr_spec (generes a chaque run)
+coverage/
