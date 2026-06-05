@@ -20,6 +20,10 @@ spec "Cell" do
       expect(cell.sample_number).to eq 0
     end
 
+    specify "le numéro d'échantillon est un entier" do
+      expect(cell.sample_number).to be_a(Integer)
+    end
+
     specify "la période est 0" do
       expect(cell.note_period).to eq 0
     end

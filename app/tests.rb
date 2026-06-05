@@ -29,9 +29,6 @@ require "lib/dr_mod_tracker/cell.rb"
 require "lib/dr_mod_tracker/pattern.rb"
 
 # --- Specs ---------------------------------------------------------------
-require "spec/cell_spec.rb"
-require "spec/sample_spec.rb"
-require "spec/song_spec.rb"
-require "spec/pattern_spec.rb"
+require_specs
 
 run_specs
